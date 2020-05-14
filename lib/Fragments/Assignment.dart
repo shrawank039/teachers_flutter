@@ -22,8 +22,7 @@ class Assignment extends StatelessWidget {
                     children: <Widget>[
                       ListTile(
                         onTap: () async {
-                            var student = await ServerAPI().getUserInfo();
-                            Route route = MaterialPageRoute(builder: (context) => ViewAssignments(student['id'].toString(), response[index]['subject_id'].toString(), response[index]['subject_name'].toString()));
+                            Route route = MaterialPageRoute(builder: (context) => ViewAssignments(response[index]['class_id'].toString(), response[index]['subject_id'].toString(), response[index]['subject_name'].toString()));
                             await Navigator.push(context, route);
                         },
                         leading: Image.asset('assets/images/subject.png',),

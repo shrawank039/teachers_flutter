@@ -98,7 +98,7 @@ class ServerAPI {
   }
 
   Future<Map<String, dynamic>> calssWiseSubjectList() async {
-    final response = await http.get(apiRoot+"/teacherweeklyClassWiseSchedule?teacher_id=2&school_id=2", headers: _buildHeader());
+    final response = await http.get(apiRoot+"/getAllClassRoutine?teacher_id=9&school_id=4", headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -125,8 +125,8 @@ class ServerAPI {
   }
 
 
-  Future<Map<String, dynamic>> individualChatRoomList() async {
-    final response = await http.get(apiRoot+"/classWiseStudentList?teacher_id=9&school_id=4", headers: _buildHeader());
+  Future<Map<String, dynamic>> individualChatRoomList(classID, subjectID) async {
+    final response = await http.get(apiRoot+"/classWiseStudentList?teacher_id=9&school_id=4&class_id="+classID+"&subject_id="+subjectID, headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -176,8 +176,8 @@ class ServerAPI {
     }
   }
 
-  Future<Map<String, dynamic>> getIndividualAssignment(studentID, subjectId) async {
-    final response = await http.get(apiRoot+"/getIndividualAssignment?student_id="+studentID+"&subject_id="+subjectId, headers: _buildHeader());
+  Future<Map<String, dynamic>> getIndividualAssignment(calssID, subjectId) async {
+    final response = await http.get(apiRoot+"/getTeacherSubjectWiseAssignmentList?teacher_id=2&class_id="+calssID+"&subject_id="+subjectId, headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

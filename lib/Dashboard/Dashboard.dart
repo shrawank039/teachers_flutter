@@ -57,11 +57,6 @@ class Dashboard extends StatelessWidget {
                         Navigator.push(context, route);
                       }
 
-                      if(index == 4 ){
-                        Route route = MaterialPageRoute(builder: (context) => TeachersList("Get Support From Teachers"));
-                        Navigator.push(context, route);
-                      }
-
                     },
                     child: Row(
                       children: <Widget>[

@@ -3,9 +3,11 @@ import '../IndividualChat/IndividualChat.dart';
 import '../ServerAPI.dart';
 
 class TeachersList extends StatefulWidget {
-  final String title;
 
-  TeachersList(this.title);
+  final String class_id;
+  final String subject_id;
+
+  TeachersList(this.class_id, this.subject_id);
 
   @override
   _TeachersListState createState() => _TeachersListState();
@@ -19,19 +21,14 @@ class _TeachersListState extends State<TeachersList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    if( widget.title != "") {
-      appBar = AppBar(
-        title: Text(widget.title.toString()),
-      );
-    }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text("Homewark Submission"),
+      ),
       body: FutureBuilder(
         future: _individualChatRoomList(),
         builder: ( BuildContext context, snapshot ){
@@ -70,7 +67,7 @@ class _TeachersListState extends State<TeachersList> {
   }
 
   _individualChatRoomList() async {
-    final result = await ServerAPI().individualChatRoomList();
+    final result = await ServerAPI().individualChatRoomList(widget.class_id, widget.subject_id);
     return result["data"];
   }
 }

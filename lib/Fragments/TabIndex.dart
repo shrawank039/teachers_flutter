@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Assignment.dart';
 import 'GroupChat.dart';
 import 'TeachersList.dart';
+import 'AllClassRoutine.dart';
 
 class TabIndex extends StatefulWidget {
   @override
@@ -22,13 +23,13 @@ class _TabIndexState extends State<TabIndex> {
               Tab(text: "Homework",),
             ],
           ),
-          title: Text('Class Communications'),
+          title: Text('Class'),
         ),
         body: TabBarView(
           children: [
             GroupChat(),
             Assignment(),
-            TeachersList(""),
+            AllClassRoutine(),
           ],
         ),
       ),

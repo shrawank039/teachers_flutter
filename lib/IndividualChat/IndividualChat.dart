@@ -81,7 +81,7 @@ class _IndividualChatState extends State<IndividualChat> {
     return  Scaffold(
         backgroundColor: Color(0xFFe8dfd8),
         appBar:  AppBar(
-          title: Text(widget.subject.toString() + " Class Discussion",
+          title: Text(widget.subject.toString() + " Homework",
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),

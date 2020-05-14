@@ -5,11 +5,11 @@ import '../ServerAPI.dart';
 
 class ViewAssignments extends StatefulWidget {
 
-  final String sutdentID;
+  final String classID;
   final String subjectID;
   final String subjectName;
 
-  ViewAssignments( this.sutdentID, this.subjectID, this.subjectName);
+  ViewAssignments( this.classID, this.subjectID, this.subjectName);
 
   @override
   _ViewAssignmentsState createState() => _ViewAssignmentsState();
@@ -121,7 +121,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
 
 
   _getIndividualAssignment() async {
-    final result = await ServerAPI().getIndividualAssignment(widget.sutdentID, widget.subjectID);
+    final result = await ServerAPI().getIndividualAssignment(widget.classID, widget.subjectID);
     if(result["data"].length > 0 ){
       return result["data"];
     }

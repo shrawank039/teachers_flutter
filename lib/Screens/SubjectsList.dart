@@ -22,7 +22,7 @@ class TabsApp extends StatelessWidget {
   List<Widget> containers = [
     new GroupChat(),
     new Assignment(),
-    new TeachersList("")
+    //new TeachersList("")
   ];
 
   @override
