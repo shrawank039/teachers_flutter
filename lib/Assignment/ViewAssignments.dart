@@ -21,6 +21,9 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Assignments for "+ widget.subjectName.toString()),
+        actions: <Widget>[
+
+        ],
       ),
       body : FutureBuilder(
           future: _getIndividualAssignment(),
@@ -62,8 +65,6 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                                     icon: Icon(Icons.file_download),
                                     label: Text("Download")
                                 ),
-                                Spacer(),
-                                assignmentWidget(response[index]),
                               ],
                             ),
                           )
