@@ -51,7 +51,7 @@ class _TeachersListState extends State<TeachersList> {
                         await Navigator.push(context, route);
                       },
                       leading: Image.asset('assets/images/teacher_icon.png',),
-                      title: Text(response[index]['teacher_name'].toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+                      title: Text(response[index]['student_name'].toString(), style: TextStyle(fontWeight: FontWeight.bold),),
                       subtitle: Text(response[index]['subject_name'].toString()),
                     ),
                     Container(height: 1,width: MediaQuery.of(context).size.width, decoration: BoxDecoration(color: Colors.black12),)

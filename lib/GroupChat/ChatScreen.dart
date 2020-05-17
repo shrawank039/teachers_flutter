@@ -119,7 +119,7 @@ class _MyChatState extends State<MyChatScreen> {
                 Flexible(
                   child:  ListView.builder(
                     padding:  EdgeInsets.all(8.0),
-                    reverse: false,
+                    reverse: true,
                     itemBuilder: ( context, int index){
                       return chatList(chatHistory[index]);
                     },
@@ -207,7 +207,7 @@ class _MyChatState extends State<MyChatScreen> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 2),
-                      child: Text("2020-05-11",style: TextStyle(fontSize: 12,color: Colors.grey), textAlign: TextAlign.right,),
+                      child: Text(data["created_date"].toString(),style: TextStyle(fontSize: 12,color: Colors.grey), textAlign: TextAlign.right,),
                     ),
                   ),
                 ],
@@ -261,21 +261,23 @@ class _MyChatState extends State<MyChatScreen> {
   _sendChatMessage() async{
     final user = await ServerAPI().getUserInfo();
     if (socket != null) {
-      var msg = {
-        "room_id" :widget.chat_group_id.toString(),
-        "student" : 'student',
-        "send_by" : user['id'].toString(),
-        "content_type" : "text",
-        "content" : _textController.text.toString(),
-        "created_date" : _getDate()
-      };
-      //String jsonData = json.encode(msg);
-      socket.emit("group_chat_room", [msg]);
-      // Clear Text field
-      _textController.text = "";
-      setState(() {
-        chatHistory.add(msg);
-      });
+      if(_textController.text.toString() == ""){
+        var msg = {
+          "room_id" :widget.chat_group_id.toString(),
+          "student" : 'student',
+          "send_by" : user['id'].toString(),
+          "content_type" : "text",
+          "content" : _textController.text.toString(),
+          "created_date" : _getDate()
+        };
+        //String jsonData = json.encode(msg);
+        socket.emit("group_chat_room", [msg]);
+        // Clear Text field
+        _textController.text = "";
+        setState(() {
+          chatHistory.insert(0, msg);
+        });
+      }
     }
   }
 
@@ -283,18 +285,15 @@ class _MyChatState extends State<MyChatScreen> {
     print("_onReceiveChatMessage");
     var jsonMessage = json.decode(message.toString());
     setState(() {
-      chatHistory.add(jsonMessage["content"]);
+      chatHistory.insert(0, jsonMessage["content"]);
     });
     print(chatHistory);
   }
 
   getGroupChatHistory(chatRoomID) async {
-    print(chatRoomID);
     final result = await ServerAPI().getGroupChatHistory(chatRoomID);
-    print(result);
     if(result['status'] != "failure"){
       final data = result["data"];
-      print(data);
       for(var i = 0; i < data.length; i++){
         chatHistory.add(data[i]);
       }
@@ -324,7 +323,7 @@ class _MyChatState extends State<MyChatScreen> {
       socket.emit("group_chat_room", [msg]);
       _textController.text = "";
       setState(() {
-        chatHistory.add(msg);
+        chatHistory.insert(0, msg);
       });
     }
   }

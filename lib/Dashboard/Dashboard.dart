@@ -9,7 +9,6 @@ import '../Announcement/Announcement.dart';
 class Dashboard extends StatelessWidget {
   final androidVersionNames = [
     'Schedule',
-    'Progress',
     'Announcement',
     'Class Room',
     'Support',
@@ -17,7 +16,6 @@ class Dashboard extends StatelessWidget {
   ];
   final carIcons = [
     'assets/images/schedule.png',
-    'assets/images/progress.png',
     'assets/images/announcement.png',
     'assets/images/chat.png',
     'assets/images/suppoert0.png',
@@ -43,7 +41,7 @@ class Dashboard extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
 
-                      if(index == 3 ){
+                      if(index == 2 ){
                         Route route = MaterialPageRoute(builder: (context) => TabIndex());
                         Navigator.push(context, route);
                       }
@@ -53,17 +51,17 @@ class Dashboard extends StatelessWidget {
                         Navigator.push(context, route);
                       }
 
-                      if(index == 2 ){
+                      if(index == 1 ){
                         Route route = MaterialPageRoute(builder: (context) => Announcement());
                         Navigator.push(context, route);
                       }
 
-                      if(index == 4 ){
+                      if(index == 3 ){
                         Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
                         Navigator.push(context, route);
                       }
 
-                      if(index == 5 ){
+                      if(index == 4 ){
                         Route route = MaterialPageRoute(builder: (context) => Profile());
                         Navigator.push(context, route);
                       }
