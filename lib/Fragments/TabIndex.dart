@@ -23,7 +23,7 @@ class _TabIndexState extends State<TabIndex> {
               Tab(text: "Homework",),
             ],
           ),
-          title: Text('Class'),
+          title: Text('Class Room'),
         ),
         body: TabBarView(
           children: [

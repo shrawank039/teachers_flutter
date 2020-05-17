@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teachers/Profile/Profile.dart';
+import 'package:teachers/Screens/ContactAgreement.dart';
 import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
 import '../Announcement/Announcement.dart';
-import '../Fragments/TeachersList.dart';
 
 class Dashboard extends StatelessWidget {
   final androidVersionNames = [
@@ -54,6 +55,16 @@ class Dashboard extends StatelessWidget {
 
                       if(index == 2 ){
                         Route route = MaterialPageRoute(builder: (context) => Announcement());
+                        Navigator.push(context, route);
+                      }
+
+                      if(index == 4 ){
+                        Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+                        Navigator.push(context, route);
+                      }
+
+                      if(index == 5 ){
+                        Route route = MaterialPageRoute(builder: (context) => Profile());
                         Navigator.push(context, route);
                       }
 
