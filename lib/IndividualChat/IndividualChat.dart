@@ -112,7 +112,7 @@ class _IndividualChatState extends State<IndividualChat> {
                 Flexible(
                   child:  ListView.builder(
                     padding:  EdgeInsets.all(8.0),
-                    reverse: false,
+                    reverse: true,
                     itemBuilder: ( context, int index){
                       return chatList(chatHistory[index]);
                     },
@@ -257,18 +257,16 @@ class _IndividualChatState extends State<IndividualChat> {
       // Clear Text field
       _textController.text = "";
       setState(() {
-        chatHistory.add(msg);
+        chatHistory.insert(0, msg);
       });
     }
   }
 
   void _onReceiveChatMessage(dynamic message) {
-    print("_onReceiveChatMessage");
     var jsonMessage = json.decode(message.toString());
     setState(() {
-      chatHistory.add(jsonMessage["content"]);
+      chatHistory.insert(0, jsonMessage["content"]);
     });
-    print(chatHistory);
   }
 
   getGroupChatHistory(chatRoomID) async {
@@ -304,7 +302,7 @@ class _IndividualChatState extends State<IndividualChat> {
       socket.emit("individual_chat_room", [msg]);
       _textController.text = "";
       setState(() {
-        chatHistory.add(msg);
+        chatHistory.insert(0, msg);
       });
     }
   }
