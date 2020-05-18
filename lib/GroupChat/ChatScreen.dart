@@ -28,23 +28,25 @@ class _MyChatState extends State<MyChatScreen> {
 
   var currentUser;
   List chatHistory = [];
-  SocketIOManager manager;
-  final _textController = TextEditingController();
+  SocketIOManager manager = SocketIOManager();
   SocketIO socket;
 
+  final _textController = TextEditingController();
   bool isActive = false;
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
-    manager = SocketIOManager();
+
     initSocket();
+
     if(int.tryParse(widget.class_status) == 1){
       setState(() {
         isActive = true;
       });
     }
+
   }
 
   getCurrentUser() async {
@@ -71,13 +73,28 @@ class _MyChatState extends State<MyChatScreen> {
     ));
     socket.onConnect((data) {
       print("connected...");
+    });
+    socket.onConnectError((data){
+      print("onConnectError");
       print(data);
     });
-    socket.onConnectError(print);
-    socket.onConnectTimeout(print);
-    socket.onError(print);
-    socket.onDisconnect(print);
-    socket.on("group_chat_room/$chatRoomID", _onReceiveChatMessage);
+    socket.onConnectTimeout((data){
+      print("onConnectTimeout");
+      print(data);
+    });
+    socket.onError((data){
+      print("onError");
+      print(data);
+    });
+    socket.onDisconnect((data){
+      print("onError");
+      print(data);
+    });
+    socket.on("group_chat_room/$chatRoomID", (message){
+      setState(() {
+        chatHistory.insert(0, message);
+      });
+    });
     socket.connect();
   }
 
@@ -246,8 +263,8 @@ class _MyChatState extends State<MyChatScreen> {
                 image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
-                    colorFilter:
-                    ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
+                    //colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                ),
               ),
         ),
         placeholder: (context, url) => CircularProgressIndicator(),
@@ -261,7 +278,7 @@ class _MyChatState extends State<MyChatScreen> {
   _sendChatMessage() async{
     final user = await ServerAPI().getUserInfo();
     if (socket != null) {
-      if(_textController.text.toString() == ""){
+      if(_textController.text.toString() != ""){
         var msg = {
           "room_id" :widget.chat_group_id.toString(),
           "student" : 'student',
@@ -301,8 +318,6 @@ class _MyChatState extends State<MyChatScreen> {
     }
     return chatHistory;
   }
-
-
   _selectAttachment(type) async {
     var source = ImageSource.camera;
     if(type == "gallery"){
@@ -333,13 +348,13 @@ class _MyChatState extends State<MyChatScreen> {
     return now.year.toString() + "-"+ now.month.toString()+ "-"+ now.day.toString() + " " + now.hour.toString()+":"+now.minute.toString()+":"+now.second.toString();
   }
 
-
   @override
   void dispose() {
     _textController.dispose();
     manager.clearInstance(socket);
     super.dispose();
   }
+
 }
 
 

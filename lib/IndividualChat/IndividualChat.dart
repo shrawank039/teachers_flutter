@@ -70,7 +70,11 @@ class _IndividualChatState extends State<IndividualChat> {
     socket.onConnectTimeout(print);
     socket.onError(print);
     socket.onDisconnect(print);
-    socket.on("individual_chat_room/$chatRoomID", _onReceiveChatMessage);
+    socket.on("individual_chat_room/$chatRoomID", (message){
+      setState(() {
+        chatHistory.insert(0, message);
+      });
+    });
     socket.connect();
   }
 
@@ -190,7 +194,7 @@ class _IndividualChatState extends State<IndividualChat> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 2),
-                      child: Text("2020-05-11",style: TextStyle(fontSize: 12,color: Colors.grey), textAlign: TextAlign.right,),
+                      child: Text(data["created_date"].toString(),style: TextStyle(fontSize: 12,color: Colors.grey), textAlign: TextAlign.right,),
                     ),
                   ),
                 ],
@@ -229,8 +233,8 @@ class _IndividualChatState extends State<IndividualChat> {
                 image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
-                    colorFilter:
-                    ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
+                    //colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                ),
               ),
         ),
         placeholder: (context, url) => CircularProgressIndicator(),
@@ -244,21 +248,23 @@ class _IndividualChatState extends State<IndividualChat> {
   _sendChatMessage() async{
     final user = await ServerAPI().getUserInfo();
     if (socket != null) {
-      var msg = {
-        "room_id" :widget.chat_group_id.toString(),
-        "student" : 'student',
-        "send_by" : user['id'].toString(),
-        "content_type" : "text",
-        "content" : _textController.text.toString(),
-        "created_date" : _getDate()
-      };
-      //String jsonData = json.encode(msg);
-      socket.emit("individual_chat_room", [msg]);
-      // Clear Text field
-      _textController.text = "";
-      setState(() {
-        chatHistory.insert(0, msg);
-      });
+      if(_textController.text.toString() != ""){
+        var msg = {
+          "room_id" :widget.chat_group_id.toString(),
+          "student" : 'student',
+          "send_by" : user['id'].toString(),
+          "content_type" : "text",
+          "content" : _textController.text.toString(),
+          "created_date" : _getDate()
+        };
+        //String jsonData = json.encode(msg);
+        socket.emit("individual_chat_room", [msg]);
+        // Clear Text field
+        _textController.text = "";
+        setState(() {
+          chatHistory.insert(0, msg);
+        });
+      }
     }
   }
 

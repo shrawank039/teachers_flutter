@@ -47,6 +47,7 @@ class _AllClassRoutineState extends State<AllClassRoutine> {
 
   _getClassWiseSubjectList() async {
     final result = await ServerAPI().calssWiseSubjectList();
+    print(result);
     return result["data"];
   }
 }

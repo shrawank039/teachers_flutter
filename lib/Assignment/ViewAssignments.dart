@@ -22,7 +22,14 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
       appBar: AppBar(
         title: Text("Assignments for "+ widget.subjectName.toString()),
         actions: <Widget>[
-
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              Route route = MaterialPageRoute(builder: (context) => SubmitAssignment(widget.classID, widget.subjectID));
+              await Navigator.push(context, route);
+              _getIndividualAssignment();
+            },
+          ),
         ],
       ),
       body : FutureBuilder(
@@ -44,7 +51,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                             ListTile(
                               leading: Image.asset('assets/images/subject.png',),
                               title: Text(response[index]['title'].toString(), style: TextStyle(fontWeight: FontWeight.bold),),
-                              subtitle: Text(response[index]['subject_name'].toString()),
+                              subtitle: Text(response[index]['class_name'].toString()),
                               trailing: Text(response[index]['created_date'].toString()),
                             ),
                             Padding(
@@ -82,42 +89,6 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
           }
       ),
     );
-  }
-
-  Widget assignmentWidget(data){
-    if(data["submission_status"].toString() == "done"){
-      return FlatButton.icon(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: Colors.blueAccent)
-          ),
-          //color: Colors.blueAccent,
-          textColor: Colors.blueAccent,
-          onPressed: (){},
-          icon: Icon(Icons.visibility),
-          label: Text("Feedback")
-      );
-    } else {
-      return FlatButton.icon(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: Colors.blueAccent)
-          ),
-          textColor: Colors.blueAccent,
-          onPressed: () async {
-            var student = await ServerAPI().getUserInfo();
-            Route route = MaterialPageRoute(builder: (context) => SubmitAssignment(
-                data["class_id"].toString(),
-                student['id'].toString(),
-                data["subject_id"].toString(),
-                data["assignment_id"].toString(),
-            ));
-            await Navigator.push(context, route);
-          },
-          icon: Icon(Icons.file_upload),
-          label: Text("Submit")
-      );
-    }
   }
 
   _openFile(url) async {

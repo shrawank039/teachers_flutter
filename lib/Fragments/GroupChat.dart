@@ -148,7 +148,6 @@ class _GroupChatState extends State<GroupChat> {
 
   _getClassWiseSubjectList() async {
     final result = await ServerAPI().calssWiseSubjectList();
-    print(result);
     setState(() {
       allSubject = result["data"];
     });
