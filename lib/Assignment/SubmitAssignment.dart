@@ -119,8 +119,8 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   _attachFile() async {
     var source = ImageSource.camera;
     var image = await ImagePicker.pickImage(source: source);
-    print(image.path);
     setState(() {
+      attachmentController.text = image.toString();
       attachmentPath = image.path;
     });
   }
