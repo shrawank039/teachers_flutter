@@ -110,7 +110,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 3),
-                              child: Text('NA'),
+                              child: Text(response["teacher_dob"].toString()),
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 8.0),
@@ -123,8 +123,23 @@ class _ProfileState extends State<Profile> {
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 3),
-                              child: Text('NA'),
+                              child: Text(response["teacher_gender"].toString()),
                             ),
+
+                            Container(
+                              margin: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                'Address',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 3),
+                              child: Text(response["teacher_address"].toString()),
+                            ),
+
                           ],
                         ),
                       ),
@@ -256,7 +271,6 @@ class _ProfileState extends State<Profile> {
 
   getProfile() async{
     final result = await ServerAPI().getProfile();
-    print(result);
     return result['data'][0];
   }
 

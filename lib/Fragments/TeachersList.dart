@@ -68,6 +68,7 @@ class _TeachersListState extends State<TeachersList> {
 
   _individualChatRoomList() async {
     final result = await ServerAPI().individualChatRoomList(widget.class_id, widget.subject_id);
+    print(result);
     return result["data"];
   }
 }

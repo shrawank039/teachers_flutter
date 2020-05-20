@@ -6,11 +6,9 @@ import '../ServerAPI.dart';
 class SubmitAssignment extends StatefulWidget {
 
   final String classID;
-  final String studentID;
   final String subjectID;
-  final String assignmentID;
 
-  SubmitAssignment(this.classID, this.studentID, this.subjectID, this.assignmentID);
+  SubmitAssignment(this.classID, this.subjectID);
 
   @override
   _SubmitAssignmentState createState() => _SubmitAssignmentState();
@@ -21,7 +19,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   final GlobalKey<ScaffoldState> _scaffolkey = GlobalKey<ScaffoldState>();
   String title = "";
   String description = "";
-  String attachmentPath = "";
+  var attachmentPath;
 
   var attachmentController = TextEditingController();
 
@@ -122,7 +120,8 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     var source = ImageSource.camera;
     var image = await ImagePicker.pickImage(source: source);
     setState(() {
-      attachmentPath = image.path.toString();
+      attachmentController.text = image.toString();
+      attachmentPath = image.path;
     });
   }
 
@@ -135,19 +134,17 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     } else {
 
       try {
-
+        var me = await ServerAPI().getUserInfo();
         final result = await ServerAPI().submitAssignment({
+          'teacher_id' : me['id'].toString(),
           'class_id' : widget.classID,
-          'student_id' : widget.studentID,
           'subject_id' : widget.subjectID,
           'title' : title,
           'description' : description,
-          'assignment_id' : widget.assignmentID
         }, attachmentPath);
 
         if(result["status"] == "success"){
-          Route route = MaterialPageRoute(builder: (context) => Dashboard());
-          await Navigator.pushReplacement(context, route);
+          Navigator.pop(context);
         } else {
           _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
         }

@@ -209,7 +209,7 @@ class ServerAPI {
   }
 
   submitAssignment(data, attachmentPath) async {
-    var url = apiRoot+"/submitWorkAssignmentByStudent";
+    var url = apiRoot+"/addWorkAssignment";
     var request = http.MultipartRequest('POST', Uri.parse(url),);
     request.files.add(await http.MultipartFile.fromPath('attachment', attachmentPath,),);
     request.fields.addAll(data);
