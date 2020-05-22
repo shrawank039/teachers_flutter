@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teachers/Attendance/StudentAttaindance.dart';
 import 'package:teachers/Profile/Profile.dart';
 import 'package:teachers/Screens/ContactAgreement.dart';
 import 'package:teachers/ServerAPI.dart';
@@ -8,19 +9,18 @@ import '../Schedule/Schedule.dart';
 import '../Announcement/Announcement.dart';
 
 class Dashboard extends StatefulWidget {
-
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-
   String schoolName = "";
 
   final androidVersionNames = [
     'Schedule',
     'Announcement',
     'Class Room',
+    'Attendance',
     'Support',
     'Profile'
   ];
@@ -29,6 +29,7 @@ class _DashboardState extends State<Dashboard> {
     'assets/images/schedule.png',
     'assets/images/announcement.png',
     'assets/images/chat.png',
+    'assets/images/profile.png',
     'assets/images/suppoert0.png',
     'assets/images/profile.png'
   ];
@@ -54,45 +55,59 @@ class _DashboardState extends State<Dashboard> {
               bottom: 20,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                child: Center(child: Text(schoolName.toString(), style: TextStyle(fontSize: 20),)),
+                child: Center(
+                    child: Text(
+                  schoolName.toString(),
+                  style: TextStyle(fontSize: 20),
+                )),
               ),
             ),
             Container(
               child: GridView.builder(
                 itemCount: carIcons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     margin: EdgeInsets.all(15.0),
                     child: Card(
                       child: GestureDetector(
                         onTap: () {
-
-                          if(index == 2 ){
-                            Route route = MaterialPageRoute(builder: (context) => TabIndex());
+                          if (index == 2) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => TabIndex());
                             Navigator.push(context, route);
                           }
 
-                          if(index == 0 ){
-                            Route route = MaterialPageRoute(builder: (context) => Schedule());
+                          if (index == 0) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Schedule());
                             Navigator.push(context, route);
                           }
 
-                          if(index == 1 ){
-                            Route route = MaterialPageRoute(builder: (context) => Announcement());
+                          if (index == 1) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Announcement());
                             Navigator.push(context, route);
                           }
 
-                          if(index == 3 ){
-                            Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+                          if (index == 3) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => StudentAttaindance());
                             Navigator.push(context, route);
                           }
 
-                          if(index == 4 ){
-                            Route route = MaterialPageRoute(builder: (context) => Profile());
+                          if (index == 4) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => ContactAgreement());
                             Navigator.push(context, route);
                           }
 
+                          if (index == 5) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Profile());
+                            Navigator.push(context, route);
+                          }
                         },
                         child: Row(
                           children: <Widget>[
@@ -139,8 +154,5 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       schoolName = result['school_name'].toString();
     });
-
   }
-
-
 }
