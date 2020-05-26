@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teachers/CustomDrawer.dart';
 
 import '../ServerAPI.dart';
 
@@ -15,7 +16,9 @@ class ContactAgreement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text('Contact Agreement'),
       ),
       body: Column(
@@ -46,8 +49,7 @@ class ContactAgreement extends StatelessWidget {
             width: double.infinity,
             height: 40.0,
             child: RaisedButton(
-              elevation: 5,
-              color: Colors.deepOrange[500],
+              color: Colors.blueGrey,
               child: Text(
                 "I agree",
                 style: TextStyle(

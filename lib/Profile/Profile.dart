@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teachers/CustomDrawer.dart';
 import '../Auth/Login.dart';
 
 import '../ServerAPI.dart';
@@ -21,7 +22,9 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text('Profile'),
         actions: <Widget>[
           IconButton(

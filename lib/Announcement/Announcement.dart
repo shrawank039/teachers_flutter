@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachers/CustomDrawer.dart';
 
 import '../ServerAPI.dart';
 
@@ -12,7 +13,9 @@ class _AnnouncementState extends State<Announcement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text("Announcement"),
       ),
       body: FutureBuilder(
@@ -28,13 +31,12 @@ class _AnnouncementState extends State<Announcement> {
                       child: Column(
                         children: <Widget>[
                           ListTile(
-                            leading: Icon(Icons.notifications_active),
                             title: Text(response[index]['title'].toString()),
-                            trailing: Text(response[index]['created_date'].toString()),
+                            subtitle: Text(response[index]['created_date'].toString()),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                            child: Text(response[index]['description'].toString()),
+                            child: Text(response[index]['description'].toString(), textAlign: TextAlign.justify,),
                           ),
                         ],
                       ),

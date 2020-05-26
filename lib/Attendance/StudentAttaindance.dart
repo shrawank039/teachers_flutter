@@ -15,6 +15,7 @@ class _StudentAttaindanceState extends State<StudentAttaindance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text('Choose Class'),
       ),
       body: FutureBuilder(

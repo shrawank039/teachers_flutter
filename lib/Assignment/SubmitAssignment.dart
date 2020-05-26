@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Dashboard/Dashboard.dart';
@@ -28,6 +29,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     return Scaffold(
       key: _scaffolkey,
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text("Submit Assignment"),
       ),
       body: ListView(
@@ -81,17 +83,26 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                     ),
                   ),
                 ),),
-                FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.blueAccent)
-                    ),
-                    //color: Colors.blueAccent,
-                    textColor: Colors.blueAccent,
-                    onPressed: _attachFile,
-                    icon: Icon(Icons.attachment),
-                    label: Text("Attach File")
-                )
+
+                GestureDetector(
+                  onTap: (){
+                    _attachFile('camera');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 20),
+                    child: Icon(Icons.camera_alt, color: Colors.blueGrey,),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: (){
+                    _attachFile('gallery');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Icon(Icons.attach_file, color: Colors.blueGrey),
+                  ),
+                ),
               ],
           ),
           Container(height: 20,),
@@ -100,10 +111,10 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
             child: FlatButton.icon(
               padding: EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.blueAccent)
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(color: Colors.blueGrey)
                 ),
-                color: Colors.blueAccent,
+                color: Colors.blueGrey,
                 textColor: Colors.white,
                 onPressed: _submitAssignment,
                 icon: Icon(Icons.attachment),
@@ -116,9 +127,17 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     );
   }
 
-  _attachFile() async {
+  _attachFile(type) async {
+    var image;
     var source = ImageSource.camera;
-    var image = await ImagePicker.pickImage(source: source);
+    if (type == "gallery") {
+      image = await FilePicker.getFile(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'pdf', 'doc', 'docx'],
+      );
+    } else {
+      image = await ImagePicker.pickImage(source: source);
+    }
     setState(() {
       attachmentController.text = image.toString();
       attachmentPath = image.path;

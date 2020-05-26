@@ -148,9 +148,7 @@ class ServerAPI {
   Future<Map<String, dynamic>> weeklyScheduleClass() async {
     final userInfo = await this.getUserInfo();
     final teacherID = userInfo['id'];
-    final response = await http.get(
-        apiRoot + "/teacherweeklyScheduleClass?teacher_id=$teacherID",
-        headers: _buildHeader());
+    final response = await http.get(apiRoot + "/teacherweeklyScheduleClass?teacher_id=$teacherID", headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -176,13 +174,7 @@ class ServerAPI {
     final userInfo = await this.getUserInfo();
     final teacherID = userInfo['id'];
     final schoolID = userInfo['school_id'];
-    final response = await http.get(
-        apiRoot +
-            "/classWiseStudentList?teacher_id=$teacherID&school_id=$schoolID&class_id=" +
-            classID +
-            "&subject_id=" +
-            subjectID,
-        headers: _buildHeader());
+    final response = await http.get(apiRoot + "/classWiseStudentList?teacher_id=$teacherID&school_id=$schoolID&class_id=" + classID + "&subject_id=" + subjectID, headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -310,4 +302,25 @@ class ServerAPI {
       throw Exception('Failed to load post');
     }
   }
+
+  Future<Map<String, dynamic>> readAllMessage(chatRoomID) async {
+    final response = await http.get(apiRoot+"/setReadMessage?room_id=$chatRoomID&sender=teacher", headers: _buildHeader());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<Map<String, dynamic>> changePassword(oldPassword, newPassword, confirmPassword) async {
+    final userInfo = await this.getUserInfo();
+    final userID = userInfo['id'];
+    final response = await http.get(apiRoot+"/teacherchangePassword?user_id=$userID&old_password=$oldPassword&new_password=$newPassword&confirm_password=$confirmPassword", headers: _buildHeader());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
 }

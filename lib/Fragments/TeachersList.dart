@@ -27,6 +27,7 @@ class _TeachersListState extends State<TeachersList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text("Homewark Submission"),
       ),
       body: FutureBuilder(
@@ -49,10 +50,12 @@ class _TeachersListState extends State<TeachersList> {
                             response[index]['chat_room_id'].toString()
                         ));
                         await Navigator.push(context, route);
+                        setState(() {});
                       },
                       leading: Image.asset('assets/images/teacher_icon.png',),
                       title: Text(response[index]['student_name'].toString(), style: TextStyle(fontWeight: FontWeight.bold),),
                       subtitle: Text(response[index]['subject_name'].toString()),
+                      trailing: customCountViewer(response[index]['unread_message']),
                     ),
                     Container(height: 1,width: MediaQuery.of(context).size.width, decoration: BoxDecoration(color: Colors.black12),)
                   ],
@@ -66,9 +69,23 @@ class _TeachersListState extends State<TeachersList> {
     );
   }
 
+  Widget customCountViewer(count){
+    if(count > 0 ){
+      return Container(
+        width: 30,
+        height: 30,
+        child: CircleAvatar(
+          backgroundColor: Colors.green,
+          child: Text(count.toString(), style: TextStyle(color: Colors.white),),
+        ),
+      );
+    } else {
+      return Container(width: 30, height: 30,);
+    }
+  }
+
   _individualChatRoomList() async {
     final result = await ServerAPI().individualChatRoomList(widget.class_id, widget.subject_id);
-    print(result);
     return result["data"];
   }
 }

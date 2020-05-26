@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachers/CustomDrawer.dart';
 import 'Assignment.dart';
 import 'GroupChat.dart';
 import 'TeachersList.dart';
@@ -15,7 +16,9 @@ class _TabIndexState extends State<TabIndex> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        drawer: CustomDrawer(),
         appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
           bottom: TabBar(
             tabs: [
               Tab(text: "Class Room",),

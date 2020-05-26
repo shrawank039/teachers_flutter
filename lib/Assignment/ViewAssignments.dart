@@ -20,6 +20,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Text("Assignments for "+ widget.subjectName.toString()),
         actions: <Widget>[
           IconButton(
@@ -45,14 +46,13 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                     padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                     itemCount: response.length,
                     itemBuilder: (BuildContext context, int index){
+                      var deadline = response[index]['last_submission_date'].toString() == "null" ? "" : response[index]['last_submission_date'].toString();
                       return Card(
                         child: Column(
                           children: <Widget>[
                             ListTile(
-                              leading: Image.asset('assets/images/subject.png',),
                               title: Text(response[index]['title'].toString(), style: TextStyle(fontWeight: FontWeight.bold),),
-                              subtitle: Text(response[index]['class_name'].toString()),
-                              trailing: Text(response[index]['created_date'].toString()),
+                              subtitle: Text(response[index]['created_date'].toString()),
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
@@ -75,6 +75,10 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                                       icon: Icon(Icons.file_download),
                                       label: Text("Download")
                                   ),
+                                  Spacer(),
+                                  Container(
+                                    child: Text("Deadline : "+ deadline, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),),
+                                  )
                                 ],
                               ),
                             )
