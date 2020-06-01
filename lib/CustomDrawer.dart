@@ -9,7 +9,7 @@ import 'Auth/Login.dart';
 import 'Auth/changePassword.dart';
 import 'Fragments/TabIndex.dart';
 import 'Schedule/Schedule.dart';
-import 'Screens/ContactAgreement.dart';
+import 'Support/ContactAgreement.dart';
 import 'ServerAPI.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -113,14 +113,14 @@ class _DrawerState extends State<CustomDrawer> {
             },
           ),
 
-          ListTile(
-            leading: const Icon(Icons.live_help),
-            title: Text('Support', style: MenuTextStyle,),
-            onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
-              Navigator.pushReplacement(context, route);
-            },
-          ),
+//          ListTile(
+//            leading: const Icon(Icons.live_help),
+//            title: Text('Support', style: MenuTextStyle,),
+//            onTap: () {
+//              Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+//              Navigator.pushReplacement(context, route);
+//            },
+//          ),
 
           Divider(),
           ListTile(

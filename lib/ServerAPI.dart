@@ -130,13 +130,21 @@ class ServerAPI {
     }
   }
 
+  Future<Map<String, dynamic>> classSubjectWiseStudentAtendenceList(student_id, class_id, subject_id, month, year) async {
+    final userInfo = await this.getUserInfo();
+    final response = await http.get(apiRoot + "/classSubjectWiseStudentAtendenceList?student_id=$student_id&class_id=$class_id&subject_id=$subject_id&month=$month&year=$year", headers: _buildHeader());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
   Future<Map<String, dynamic>> calssWiseSubjectList() async {
     final userInfo = await this.getUserInfo();
     final teacherID = userInfo['id'];
     final schoolID = userInfo['school_id'];
-    final response = await http.get(
-        apiRoot +
-            "/getAllClassRoutine?teacher_id=$teacherID&school_id=$schoolID",
+    final response = await http.get(apiRoot + "/getAllClassRoutine?teacher_id=$teacherID&school_id=$schoolID",
         headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -196,6 +204,7 @@ class ServerAPI {
   }
 
   Future<Map<String, dynamic>> getIndividualChatHistory(groupId) async {
+    print(groupId);
     final response = await http.get(
         apiRoot + "/individualChatHistory?group_chat_id=" + groupId,
         headers: _buildHeader());
@@ -276,6 +285,15 @@ class ServerAPI {
     var res = await request.send();
     var response = await http.Response.fromStream(res);
     return json.decode(response.body.toString());
+  }
+
+  Future<Map<String, dynamic>> submitAssignmentWithoutAttachment(body) async {
+    final response = await http.post(apiRoot + "/addWorkAssignment", headers: _buildHeader(), body: body);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
   }
 
   Future<Map<String, dynamic>> getProfile() async {

@@ -47,7 +47,8 @@ class _TeachersListState extends State<TeachersList> {
                             response[index]['teacher_id'].toString(),
                             response[index]['subject_name'].toString(),
                             response[index]['student_id'].toString(),
-                            response[index]['chat_room_id'].toString()
+                            response[index]['chat_room_id'].toString(),
+                            response[index]['student_name'].toString()
                         ));
                         await Navigator.push(context, route);
                         setState(() {});
@@ -86,6 +87,7 @@ class _TeachersListState extends State<TeachersList> {
 
   _individualChatRoomList() async {
     final result = await ServerAPI().individualChatRoomList(widget.class_id, widget.subject_id);
+    print(result);
     return result["data"];
   }
 }
