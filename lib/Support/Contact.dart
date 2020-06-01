@@ -1,19 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(Contact());
+class Contact extends StatefulWidget {
+  @override
+  _ContactState createState() => _ContactState();
 }
 
-class Contact extends StatelessWidget {
+class _ContactState extends State<Contact> {
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Contact'),
-        ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        title: Text('Contact'),
+      ),
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
@@ -52,7 +59,7 @@ class Contact extends StatelessWidget {
                 ),
                 child: TextField(
                   keyboardType: TextInputType.multiline,
-                  maxLines: 10,
+                  maxLines: 5,
                   maxLength: 200,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -88,4 +95,6 @@ class Contact extends StatelessWidget {
       ),
     );
   }
+
+
 }

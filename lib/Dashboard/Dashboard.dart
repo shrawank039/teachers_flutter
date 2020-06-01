@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:teachers/Attendance/StudentAttaindance.dart';
 import 'package:teachers/CustomDrawer.dart';
 import 'package:teachers/Profile/Profile.dart';
-import 'package:teachers/Screens/ContactAgreement.dart';
+import '../Support/ContactAgreement.dart';
 import 'package:teachers/ServerAPI.dart';
 import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
@@ -26,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
     'Announcement',
     'Class Room',
     'Attendance',
-    'Support',
+    //'Support',
     'Profile'
   ];
 
@@ -35,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
     'assets/images/announcement.png',
     'assets/images/chat.png',
     'assets/images/profile.png',
-    'assets/images/suppoert0.png',
+    //'assets/images/suppoert0.png',
     'assets/images/profile.png'
   ];
 
@@ -44,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
     Colors.red[300],
     Colors.orange[300],
     Colors.purple[200],
-    Colors.green[300],
+    //Colors.green[300],
     Colors.purple[300],
   ];
 
@@ -177,12 +177,12 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(context, route);
                         }
 
-                        if (index == 4) {
-                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
-                          Navigator.push(context, route);
-                        }
+//                        if (index == 4) {
+//                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+//                          Navigator.push(context, route);
+//                        }
 
-                        if (index == 5) {
+                        if (index == 4) {
                           Route route = MaterialPageRoute(builder: (context) => Profile());
                           Navigator.push(context, route);
                         }

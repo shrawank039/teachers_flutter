@@ -20,8 +20,9 @@ class IndividualChat extends StatefulWidget {
   final String chat_group_id;
   final String calss_id;
   final String student_id;
+  final String studentName;
 
-  IndividualChat(this.calss_id, this.teacher, this.subject, this.student_id, this.chat_group_id);
+  IndividualChat(this.calss_id, this.teacher, this.subject, this.student_id, this.chat_group_id, this.studentName);
 
   @override
   _IndividualChatState createState() =>  _IndividualChatState();
@@ -85,15 +86,12 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context) {
-
+    String pageTitle = widget.subject.toString()+" Homework of\n"+widget.studentName.toString();
     return  Scaffold(
         backgroundColor: Color(0xFFe8dfd8),
         appBar:  AppBar(
           backgroundColor: Colors.blueGrey,
-          title: Text(widget.subject.toString() + " Homework",
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
+          title: Text(pageTitle, style: TextStyle(color: Colors.white, fontSize: 15), textAlign: TextAlign.left,),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.camera_alt),
@@ -281,12 +279,13 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   _sendChatMessage() async{
+    print(widget.chat_group_id.toString());
     final user = await ServerAPI().getUserInfo();
     if (socket != null) {
       if(_textController.text.toString() != ""){
         var msg = {
           "room_id" :widget.chat_group_id.toString(),
-          "student" : 'student',
+          "student" : 'teacher',
           "send_by" : user['id'].toString(),
           "content_type" : "text",
           "content" : _textController.text.toString(),
@@ -312,6 +311,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   getGroupChatHistory(chatRoomID) async {
     final result = await ServerAPI().getIndividualChatHistory(chatRoomID);
+    print(result);
     if(result['status'] != "failure"){
       final data = result["data"];
       for(var i = 0; i < data.length; i++){
@@ -341,7 +341,7 @@ class _IndividualChatState extends State<IndividualChat> {
     if (socket != null) {
       var msg = {
         "room_id": widget.chat_group_id.toString(),
-        "student": 'student',
+        "student": 'teacher',
         "send_by": user['id'].toString(),
         "content_type": response['data']['fileType'],
         "content": response['data']['attachmentUrl'],

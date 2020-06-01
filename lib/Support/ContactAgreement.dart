@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:teachers/CustomDrawer.dart';
-
 import '../ServerAPI.dart';
+import 'Contact.dart';
 
 class ContactAgreement extends StatelessWidget {
 
@@ -62,7 +62,8 @@ class ContactAgreement extends StatelessWidget {
               ),
               onPressed: () async {
                 await ServerAPI().addSupport();
-                Navigator.pop(context);
+                Route route = MaterialPageRoute(builder: (context) => Contact());
+                Navigator.push(context, route);
               },
             ),
           ),

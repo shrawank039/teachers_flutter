@@ -8,27 +8,32 @@ class ViewAssignments extends StatefulWidget {
   final String classID;
   final String subjectID;
   final String subjectName;
+  final String className;
 
-  ViewAssignments( this.classID, this.subjectID, this.subjectName);
+  ViewAssignments( this.classID, this.subjectID, this.subjectName, this.className);
 
   @override
   _ViewAssignmentsState createState() => _ViewAssignmentsState();
 }
 
 class _ViewAssignmentsState extends State<ViewAssignments> {
+
   @override
   Widget build(BuildContext context) {
+
+    String pageTitle = "Assignments for\n"+widget.subjectName.toString()+", "+widget.className.toString();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text("Assignments for "+ widget.subjectName.toString()),
+        title: Text(pageTitle, style: TextStyle(color: Colors.white, fontSize: 15), textAlign: TextAlign.left,),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
               Route route = MaterialPageRoute(builder: (context) => SubmitAssignment(widget.classID, widget.subjectID));
               await Navigator.push(context, route);
-              _getIndividualAssignment();
+              setState(() {});
             },
           ),
         ],

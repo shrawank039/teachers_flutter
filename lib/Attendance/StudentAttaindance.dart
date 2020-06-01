@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:teachers/Fragments/TeachersList.dart';
-
 import '../ServerAPI.dart';
 import 'AttendanceList.dart';
+import 'DownloadAttendance.dart';
+import 'StudentWiseAttendance.dart';
+
 
 class StudentAttaindance extends StatefulWidget {
   @override
@@ -28,12 +29,60 @@ class _StudentAttaindanceState extends State<StudentAttaindance> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () async {
+
                       var student = await ServerAPI().getUserInfo();
-                      Route route = MaterialPageRoute(
-                          builder: (context) => AttendanceList(
-                              response[index]['class_id'].toString(),
-                              response[index]['subject_id'].toString()));
-                      await Navigator.push(context, route);
+
+                      showCupertinoModalPopup(context: context, builder: (BuildContext cupertinoContext){
+                        return CupertinoActionSheet(
+                          title: Text('Attendance Option'),
+                          cancelButton: CupertinoActionSheetAction(
+                            child: Text('Cancel'),
+                            onPressed: (){
+                              Navigator.pop(cupertinoContext);
+                            },
+                          ),
+                          actions: <Widget>[
+                            CupertinoActionSheetAction(
+                              child: Text('Date Wise Attendance Report'),
+                              onPressed: () {
+                                Route route = MaterialPageRoute(builder: (context) => AttendanceList(
+                                  response[index]['class_id'].toString(),
+                                  response[index]['subject_id'].toString()
+                                ));
+                                Navigator.push(context, route);
+                                Navigator.pop(cupertinoContext);
+                              },
+                            ),
+                            CupertinoActionSheetAction(
+                              child: Text('Student Wise Attendance Report'),
+                              onPressed: () {
+
+                                Route route = MaterialPageRoute(builder: (context) => StudentWiseAttendance(
+                                    response[index]['class_id'].toString(),
+                                    response[index]['subject_id'].toString()
+                                ));
+                                Navigator.push(context, route);
+                                Navigator.pop(cupertinoContext);
+
+                              },
+                            ),
+                            CupertinoActionSheetAction(
+                              child: Text('Download Monthly Attendance'),
+                              onPressed: () {
+
+                                Route route = MaterialPageRoute(builder: (context) => DownloadAttendance(
+                                    response[index]['class_id'].toString(),
+                                    response[index]['subject_id'].toString()
+                                ));
+                                Navigator.push(context, route);
+                                Navigator.pop(cupertinoContext);
+
+                              },
+                            )
+                          ],
+                        );
+                      });
+
                     },
                     child: Card(
                       margin: EdgeInsets.all(10.0),
@@ -80,20 +129,8 @@ class _StudentAttaindanceState extends State<StudentAttaindance> {
     );
   }
 
-//  void showToast(message) {
-//    Fluttertoast.showToast(
-//        msg: message,
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.BOTTOM,
-//        timeInSecForIos: 1,
-//        backgroundColor: Colors.red,
-//        textColor: Colors.white,
-//        fontSize: 16.0);
-//  }
-
   _getClassWiseSubjectList() async {
     final result = await ServerAPI().calssWiseSubjectList();
-    print(result);
     return result["data"];
   }
 }
