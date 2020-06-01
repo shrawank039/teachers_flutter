@@ -15,7 +15,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   String schoolName = "";
   String teacherName = "";
   String schoolLogo = "";
@@ -64,7 +63,6 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -83,7 +81,8 @@ class _DashboardState extends State<Dashboard> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    child: Image.asset('assets/images/school_banner.png', fit: BoxFit.fill),
+                    child: Image.asset('assets/images/school_qbanner.png',
+                        fit: BoxFit.fill),
                     height: 190.0,
                     width: MediaQuery.of(context).size.width,
                   ),
@@ -178,15 +177,16 @@ class _DashboardState extends State<Dashboard> {
                         }
 
                         if (index == 4) {
-                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+                          Route route = MaterialPageRoute(
+                              builder: (context) => ContactAgreement());
                           Navigator.push(context, route);
                         }
 
                         if (index == 5) {
-                          Route route = MaterialPageRoute(builder: (context) => Profile());
+                          Route route = MaterialPageRoute(
+                              builder: (context) => Profile());
                           Navigator.push(context, route);
                         }
-
                       },
                       child: Container(
                         color: colors[index],
@@ -239,6 +239,4 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
-
-
 }
