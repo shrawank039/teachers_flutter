@@ -3,10 +3,6 @@ import '../Dashboard/Dashboard.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../ServerAPI.dart';
 
-void main() {
-  runApp(Login());
-}
-
 class Login extends StatefulWidget {
 
   @override
