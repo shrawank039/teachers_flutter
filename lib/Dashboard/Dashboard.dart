@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:teachers/Attendance/StudentAttaindance.dart';
 import 'package:teachers/CustomDrawer.dart';
 import 'package:teachers/Profile/Profile.dart';
-import '../Support/ContactAgreement.dart';
 import 'package:teachers/ServerAPI.dart';
+
+import '../Announcement/Announcement.dart';
 import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
-import '../Announcement/Announcement.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _DashboardState extends State<Dashboard> {
 
   final androidVersionNames = [
     'Schedule',
-    'Announcement',
+    'Announce-\nment',
     'Class Room',
     'Attendance',
     //'Support',
@@ -33,8 +33,8 @@ class _DashboardState extends State<Dashboard> {
     'assets/images/schedule.png',
     'assets/images/announcement.png',
     'assets/images/chat.png',
-    'assets/images/profile.png',
-    //'assets/images/suppoert0.png',
+    //'assets/images/profile.png',
+    'assets/images/attendance.png',
     'assets/images/profile.png'
   ];
 
@@ -143,74 +143,82 @@ class _DashboardState extends State<Dashboard> {
               //Image.asset('assets/images/school.jpg'),
             ),
             Container(
-              padding: EdgeInsets.only(top: 180, bottom: 40),
+              padding: EdgeInsets.only(top: 200, bottom: 40),
               child: GridView.builder(
                 itemCount: carIcons.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (index == 2) {
-                          Route route = MaterialPageRoute(
-                              builder: (context) => TabIndex());
-                          Navigator.push(context, route);
-                        }
+                  return Card(
+                    elevation: 5.0,
+                    margin: EdgeInsets.only(
+                        top: 10.0, left: 5.0, right: 5.0, bottom: 5.0),
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (index == 2) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => TabIndex());
+                            Navigator.push(context, route);
+                          }
 
-                        if (index == 0) {
-                          Route route = MaterialPageRoute(
-                              builder: (context) => Schedule());
-                          Navigator.push(context, route);
-                        }
+                          if (index == 0) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Schedule());
+                            Navigator.push(context, route);
+                          }
 
-                        if (index == 1) {
-                          Route route = MaterialPageRoute(
-                              builder: (context) => Announcement());
-                          Navigator.push(context, route);
-                        }
+                          if (index == 1) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Announcement());
+                            Navigator.push(context, route);
+                          }
 
-                        if (index == 3) {
-                          Route route = MaterialPageRoute(
-                              builder: (context) => StudentAttaindance());
-                          Navigator.push(context, route);
-                        }
+                          if (index == 3) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => StudentAttaindance());
+                            Navigator.push(context, route);
+                          }
 
 //                        if (index == 4) {
 //                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
 //                          Navigator.push(context, route);
 //                        }
 
-                        if (index == 4) {
-                          Route route = MaterialPageRoute(
-                              builder: (context) => Profile());
-                          Navigator.push(context, route);
-                        }
-                      },
-                      child: Container(
-                        color: colors[index],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              width: 50,
-                              child: Image.asset(
-                                carIcons[index],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 5.0),
-                              child: Text(
-                                androidVersionNames[index],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  letterSpacing: 0.5,
+                          if (index == 4) {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Profile());
+                            Navigator.push(context, route);
+                          }
+                        },
+                        child: Container(
+                          //color: colors[index],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 50,
+                                width: 50,
+                                child: Image.asset(
+                                  carIcons[index],
                                 ),
                               ),
-                            ),
-                          ],
+                              Container(
+                                margin: EdgeInsets.only(top: 5.0),
+                                child: Center(
+                                  child: Text(
+                                    androidVersionNames[index],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

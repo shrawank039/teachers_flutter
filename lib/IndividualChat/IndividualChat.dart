@@ -270,10 +270,8 @@ class _IndividualChatState extends State<IndividualChat> {
       return GestureDetector(
         onTap: () async {
           Route route = MaterialPageRoute(
-              builder: (context) =>
-                  FileViewer(
-                      data['content'].toString(),
-                      data['content_type'].toString()));
+              builder: (context) => FileViewer(
+                  data['content'].toString(), data['content_type'].toString()));
           Navigator.push(context, route);
         },
         child: Container(

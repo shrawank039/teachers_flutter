@@ -101,7 +101,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                                       textColor: Colors.blueAccent,
                                       onPressed: () async {
                                         await _openFile(response[index]
-                                        ['attachment']
+                                                ['attachment']
                                             .toString());
                                       },
                                       icon: Icon(Icons.file_download),
