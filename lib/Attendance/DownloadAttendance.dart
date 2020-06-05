@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../ServerAPI.dart';
 
 class DownloadAttendance extends StatefulWidget {
-
   final String classID;
   final String subjectID;
 
@@ -14,8 +13,6 @@ class DownloadAttendance extends StatefulWidget {
 }
 
 class _DownloadAttendanceState extends State<DownloadAttendance> {
-
-
   String absent = '0';
   String present = '0';
 
@@ -49,7 +46,7 @@ class _DownloadAttendanceState extends State<DownloadAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text("Download Attendance"),
       ),
       body: SingleChildScrollView(
@@ -61,53 +58,52 @@ class _DownloadAttendanceState extends State<DownloadAttendance> {
               children: <Widget>[
                 Expanded(
                     child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: student,
-                      hint: Text('Select Student'),
-                      items: studentList.map((item) {
-                        return DropdownMenuItem<String>(
-                          value: item['id'].toString(),
-                          child: Text(item['student_name'].toString()),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          student = value.toString();
-                        });
-                      },
-                    )
-                ),
+                  isExpanded: true,
+                  value: student,
+                  hint: Text('Select Student'),
+                  items: studentList.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['id'].toString(),
+                      child: Text(item['student_name'].toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      student = value.toString();
+                    });
+                  },
+                )),
                 Expanded(
                     child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectMonth,
-                      hint: Text('Select Month'),
-                      items: month.map((item) {
-                        return DropdownMenuItem<String>(
-                          value: item['value'].toString(),
-                          child: Text(item['name'].toString()),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectMonth = value.toString();
-                        });
-                      },
-                    )
-                )
+                  isExpanded: true,
+                  value: selectMonth,
+                  hint: Text('Select Month'),
+                  items: month.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['value'].toString(),
+                      child: Text(item['name'].toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectMonth = value.toString();
+                    });
+                  },
+                ))
               ],
             ),
-
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 5, bottom: 5),
               child: FlatButton(
                 onPressed: download,
-                child: Text("Download Attendance Sheet", style: TextStyle(color: Colors.white),),
-                color: Colors.blueGrey,
+                child: Text(
+                  "Download Attendance Sheet",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.green,
               ),
             ),
-
           ],
         ),
       ),
@@ -117,11 +113,13 @@ class _DownloadAttendanceState extends State<DownloadAttendance> {
   download() async {
     var classID = widget.classID;
     var subjectID = widget.subjectID;
-    await launch("http://128.199.237.154/school_erp/classSubjectWiseStudentAtendenceXlsList?class_id=$classID&subject_id=$subjectID&month=$selectMonth&year=2020");
+    await launch(
+        "http://128.199.237.154/school_erp/classSubjectWiseStudentAtendenceXlsList?class_id=$classID&subject_id=$subjectID&month=$selectMonth&year=2020");
   }
 
   _getStudentList() async {
-    final result = await ServerAPI().individualChatRoomList(widget.classID, widget.subjectID);
+    final result = await ServerAPI()
+        .individualChatRoomList(widget.classID, widget.subjectID);
     setState(() {
       student = result["data"][0]['id'].toString();
       studentList = result["data"];

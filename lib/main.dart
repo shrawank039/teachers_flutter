@@ -8,7 +8,8 @@ import 'ServerAPI.dart';
 void main() {
   runApp(MyApp());
   OneSignal.shared.init("0ff4329e-5eda-4e47-8de0-0e4f05fb6f50");
-  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
 }
 
 class MyApp extends StatefulWidget {
@@ -18,7 +19,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Fluter',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        accentColor: Colors.blue,
+        accentColor: Colors.green,
         primaryColor: Colors.white,
         primaryColorDark: Colors.white,
         fontFamily: 'Montserrat Regularr',
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _isLogin() async {
-    if(await ServerAPI().isLogin()){
+    if (await ServerAPI().isLogin()) {
       print("login");
       Route route = MaterialPageRoute(builder: (context) => Dashboard());
       Navigator.pushReplacement(context, route);
@@ -50,5 +50,4 @@ class _MyAppState extends State<MyApp> {
       print("not login");
     }
   }
-
 }

@@ -5,7 +5,6 @@ import '../ServerAPI.dart';
 import 'Contact.dart';
 
 class ContactAgreement extends StatelessWidget {
-
   List<String> text = [
     'I have not shared my password with anyone.',
     'I am responsible for the content typed in query.',
@@ -18,7 +17,7 @@ class ContactAgreement extends StatelessWidget {
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text('Contact Agreement'),
       ),
       body: Column(
@@ -28,17 +27,18 @@ class ContactAgreement extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(top: 30, bottom: 30.0),
               margin:
-              EdgeInsets.only(left: 20, right: 20, top: 50, bottom: 50.0),
+                  EdgeInsets.only(left: 20, right: 20, top: 50, bottom: 50.0),
               color: Colors.white,
               child: Column(
                 children: text
-                    .map((t) => CheckboxListTile(
-                    title: Text(t),
-                    value: true,
-                    onChanged: (bool value) {},
-                    controlAffinity: ListTileControlAffinity.leading,
-                  ),
-                )
+                    .map(
+                      (t) => CheckboxListTile(
+                        title: Text(t),
+                        value: true,
+                        onChanged: (bool value) {},
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    )
                     .toList(),
               ),
             ),
@@ -49,7 +49,7 @@ class ContactAgreement extends StatelessWidget {
             width: double.infinity,
             height: 40.0,
             child: RaisedButton(
-              color: Colors.blueGrey,
+              color: Colors.green,
               child: Text(
                 "I agree",
                 style: TextStyle(
@@ -62,7 +62,8 @@ class ContactAgreement extends StatelessWidget {
               ),
               onPressed: () async {
                 await ServerAPI().addSupport();
-                Route route = MaterialPageRoute(builder: (context) => Contact());
+                Route route =
+                MaterialPageRoute(builder: (context) => Contact());
                 Navigator.push(context, route);
               },
             ),
@@ -71,5 +72,4 @@ class ContactAgreement extends StatelessWidget {
       ),
     );
   }
-
 }

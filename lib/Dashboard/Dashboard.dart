@@ -15,7 +15,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   String schoolName = "";
   String teacherName = "";
   String schoolLogo = "";
@@ -42,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
   final colors = [
     Colors.blue[200],
     Colors.red[300],
-    Colors.orange[300],
+    Colors.green[300],
     Colors.purple[200],
     //Colors.green[300],
     Colors.purple[300],
@@ -64,7 +63,6 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,7 +70,7 @@ class _DashboardState extends State<Dashboard> {
       home: Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.green,
           title: Text("Teacher Dashboard"),
         ),
         body: Stack(
@@ -83,7 +81,8 @@ class _DashboardState extends State<Dashboard> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    child: Image.asset('assets/images/school_banner.png', fit: BoxFit.fill),
+                    child: Image.asset('assets/images/school_banner.png',
+                        fit: BoxFit.fill),
                     height: 190.0,
                     width: MediaQuery.of(context).size.width,
                   ),
@@ -183,10 +182,10 @@ class _DashboardState extends State<Dashboard> {
 //                        }
 
                         if (index == 4) {
-                          Route route = MaterialPageRoute(builder: (context) => Profile());
+                          Route route = MaterialPageRoute(
+                              builder: (context) => Profile());
                           Navigator.push(context, route);
                         }
-
                       },
                       child: Container(
                         color: colors[index],
@@ -239,6 +238,4 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
-
-
 }

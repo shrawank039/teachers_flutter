@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../ServerAPI.dart';
 
-
 class StudentWiseAttendance extends StatefulWidget {
-
   final String classID;
   final String subjectID;
 
@@ -16,7 +14,6 @@ class StudentWiseAttendance extends StatefulWidget {
 }
 
 class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
-
   String absent = '0';
   String present = '0';
 
@@ -50,7 +47,7 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text("Student Wise Attendance"),
       ),
       body: SingleChildScrollView(
@@ -62,53 +59,52 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
               children: <Widget>[
                 Expanded(
                     child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: student,
-                      hint: Text('Select Student'),
-                      items: studentList.map((item) {
-                        return DropdownMenuItem<String>(
-                          value: item['id'].toString(),
-                          child: Text(item['student_name'].toString()),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          student = value.toString();
-                        });
-                      },
-                    )
-                ),
+                  isExpanded: true,
+                  value: student,
+                  hint: Text('Select Student'),
+                  items: studentList.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['id'].toString(),
+                      child: Text(item['student_name'].toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      student = value.toString();
+                    });
+                  },
+                )),
                 Expanded(
                     child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectMonth,
-                      hint: Text('Select Month'),
-                      items: month.map((item) {
-                        return DropdownMenuItem<String>(
-                          value: item['value'].toString(),
-                          child: Text(item['name'].toString()),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectMonth = value.toString();
-                        });
-                      },
-                    )
-                )
+                  isExpanded: true,
+                  value: selectMonth,
+                  hint: Text('Select Month'),
+                  items: month.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['value'].toString(),
+                      child: Text(item['name'].toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectMonth = value.toString();
+                    });
+                  },
+                ))
               ],
             ),
-
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 5, bottom: 5),
               child: FlatButton(
                 onPressed: _attendanceList,
-                child: Text("Search", style: TextStyle(color: Colors.white),),
-                color: Colors.blueGrey,
+                child: Text(
+                  "Search",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.green,
               ),
             ),
-
             Container(
               padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 7.0),
               width: double.infinity,
@@ -117,23 +113,50 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text('Present', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.black54,),),
+                      Text(
+                        'Present',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          color: Colors.black54,
+                        ),
+                      ),
                       Container(
                         color: Colors.green,
                         margin: EdgeInsets.all(5.0),
                         padding: EdgeInsets.all(7.0),
-                        child: Text(present, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white,),),
+                        child: Text(
+                          present,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      Text('Absent', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.black54,),),
+                      Text(
+                        'Absent',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          color: Colors.black54,
+                        ),
+                      ),
                       Container(
                         color: Colors.red,
                         margin: EdgeInsets.all(5.0),
                         padding: EdgeInsets.all(7.0),
-                        child: Text(absent, style: TextStyle( fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white,),
+                        child: Text(
+                          absent,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
                         ),
                       )
                     ],
@@ -141,9 +164,9 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
                 ],
               ),
             ),
-
-            Container(height: 15,),
-
+            Container(
+              height: 15,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -155,14 +178,27 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
                     child: Container(
                       padding: EdgeInsets.all(20.0),
                       child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            child: Text(attendance[index]['date'].toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.grey,),),
+                            child: Text(
+                              attendance[index]['date'].toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                           Container(
-                            child: Text(getStatus(attendance[index]['status']), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.black54,),),
+                            child: Text(
+                              getStatus(attendance[index]['status']),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.black54,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -177,15 +213,16 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
     );
   }
 
-  getStatus(status){
-    if(status == 1 ){
+  getStatus(status) {
+    if (status == 1) {
       return "P";
     }
     return "A";
   }
 
   _attendanceList() async {
-    final result = await ServerAPI().classSubjectWiseStudentAtendenceList(student, widget.classID, widget.subjectID, selectMonth, "2020");
+    final result = await ServerAPI().classSubjectWiseStudentAtendenceList(
+        student, widget.classID, widget.subjectID, selectMonth, "2020");
     setState(() {
       attendance = result["data"];
     });
@@ -193,10 +230,10 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
     _updateAbsentCount(result["data"]);
   }
 
-  _updatePresentCount(data){
+  _updatePresentCount(data) {
     int count = 0;
-    for(var i =0; i < data.length; i++){
-      if(data[i]['status'] == 1){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]['status'] == 1) {
         count = count + 1;
       }
     }
@@ -205,10 +242,10 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
     });
   }
 
-  _updateAbsentCount(data){
+  _updateAbsentCount(data) {
     int count = 0;
-    for(var i = 0; i < data.length; i++){
-      if(data[i]['status'] == 0){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]['status'] == 0) {
         count = count + 1;
       }
     }
@@ -220,11 +257,11 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
   }
 
   _getStudentList() async {
-    final result = await ServerAPI().individualChatRoomList(widget.classID, widget.subjectID);
+    final result = await ServerAPI()
+        .individualChatRoomList(widget.classID, widget.subjectID);
     setState(() {
       student = result["data"][0]['id'].toString();
       studentList = result["data"];
     });
   }
-
 }

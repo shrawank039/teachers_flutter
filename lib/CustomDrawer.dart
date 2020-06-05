@@ -18,7 +18,6 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _DrawerState extends State<CustomDrawer> {
-
   String student_name = "";
   String student_code = "";
   String avatar = "";
@@ -54,7 +53,7 @@ class _DrawerState extends State<CustomDrawer> {
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
+              color: Colors.green,
             ),
             accountName: Text(student_name.toUpperCase()),
             accountEmail: Row(
@@ -70,16 +69,23 @@ class _DrawerState extends State<CustomDrawer> {
 
           ListTile(
             leading: const Icon(Icons.dashboard),
-            title: Text('Dashboard', style: MenuTextStyle,),
+            title: Text(
+              'Dashboard',
+              style: MenuTextStyle,
+            ),
             onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => Dashboard());
+              Route route =
+                  MaterialPageRoute(builder: (context) => Dashboard());
               Navigator.pushReplacement(context, route);
             },
           ),
 
           ListTile(
             leading: const Icon(Icons.archive),
-            title: Text('Profile', style: MenuTextStyle,),
+            title: Text(
+              'Profile',
+              style: MenuTextStyle,
+            ),
             onTap: () {
               Route route = MaterialPageRoute(builder: (context) => Profile());
               Navigator.pushReplacement(context, route);
@@ -88,7 +94,10 @@ class _DrawerState extends State<CustomDrawer> {
 
           ListTile(
             leading: const Icon(Icons.calendar_today),
-            title: Text('Time Table', style: MenuTextStyle,),
+            title: Text(
+              'Time Table',
+              style: MenuTextStyle,
+            ),
             onTap: () {
               Route route = MaterialPageRoute(builder: (context) => Schedule());
               Navigator.pushReplacement(context, route);
@@ -97,16 +106,23 @@ class _DrawerState extends State<CustomDrawer> {
 
           ListTile(
             leading: const Icon(Icons.notifications_active),
-            title: Text('Announcement', style: MenuTextStyle,),
+            title: Text(
+              'Announcement',
+              style: MenuTextStyle,
+            ),
             onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => Announcement());
+              Route route =
+              MaterialPageRoute(builder: (context) => Announcement());
               Navigator.pushReplacement(context, route);
             },
           ),
 
           ListTile(
             leading: const Icon(Icons.chat),
-            title: Text('Class Room', style: MenuTextStyle,),
+            title: Text(
+              'Class Room',
+              style: MenuTextStyle,
+            ),
             onTap: () {
               Route route = MaterialPageRoute(builder: (context) => TabIndex());
               Navigator.pushReplacement(context, route);
@@ -125,30 +141,40 @@ class _DrawerState extends State<CustomDrawer> {
           Divider(),
           ListTile(
             leading: const Icon(Icons.vpn_key),
-            title: Text('Change Password', style: MenuTextStyle,),
+            title: Text(
+              'Change Password',
+              style: MenuTextStyle,
+            ),
             onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => changePassword());
+              Route route =
+              MaterialPageRoute(builder: (context) => changePassword());
               Navigator.pushReplacement(context, route);
             },
           ),
           ListTile(
             leading: const Icon(Icons.undo),
-            title: Text('Logout', style: MenuTextStyle,),
-            onTap:_logout,
+            title: Text(
+              'Logout',
+              style: MenuTextStyle,
+            ),
+            onTap: _logout,
           ),
 
           Divider(),
 
           ListTile(
-            title: Text('App version'.toUpperCase(), style: TextStyle(color: Colors.black54,),),
+            title: Text(
+              'App version'.toUpperCase(),
+              style: TextStyle(
+                color: Colors.black54,
+              ),
+            ),
             trailing: Text("V3.0.1"),
           ),
-
         ],
       ),
     );
   }
-
 
   _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -159,5 +185,4 @@ class _DrawerState extends State<CustomDrawer> {
     Route route = MaterialPageRoute(builder: (context) => Login());
     Navigator.pushReplacement(context, route);
   }
-
 }

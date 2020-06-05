@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 class FileViewer extends StatefulWidget {
-
   final String fileURL;
   final String fileType;
 
@@ -13,7 +12,6 @@ class FileViewer extends StatefulWidget {
 }
 
 class _FileViewerState extends State<FileViewer> {
-
   bool _isLoading = true;
   PDFDocument document;
 
@@ -28,7 +26,7 @@ class _FileViewerState extends State<FileViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         elevation: 0.0,
         title: Text("File Viewer"),
       ),
@@ -36,25 +34,28 @@ class _FileViewerState extends State<FileViewer> {
     );
   }
 
-  Widget viewFile(){
-    if(widget.fileType == "image"){
+  Widget viewFile() {
+    if (widget.fileType == "image") {
       return SingleChildScrollView(
-        child: Image.network(widget.fileURL, fit: BoxFit.fitWidth,),
+        child: Image.network(
+          widget.fileURL,
+          fit: BoxFit.fitWidth,
+        ),
       );
     } else {
       return Center(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
             : PDFViewer(
-          document: document,
-          zoomSteps: 1,
-          //uncomment below line to preload all pages
-          // lazyLoad: false,
-          // uncomment below line to scroll vertically
-          // scrollDirection: Axis.vertical,
+                document: document,
+                zoomSteps: 1,
+                //uncomment below line to preload all pages
+                // lazyLoad: false,
+                // uncomment below line to scroll vertically
+                // scrollDirection: Axis.vertical,
 
-          //uncomment below code to replace bottom navigation with your own
-          /* navigationBuilder:
+                //uncomment below code to replace bottom navigation with your own
+                /* navigationBuilder:
                       (context, page, totalPages, jumpToPage, animateToPage) {
                     return ButtonBar(
                       alignment: MainAxisAlignment.spaceEvenly,
@@ -92,11 +93,9 @@ class _FileViewerState extends State<FileViewer> {
   }
 
   loadDocument() async {
-    if(widget.fileType == "pdf"){
+    if (widget.fileType == "pdf") {
       document = await PDFDocument.fromURL(widget.fileURL);
       setState(() => _isLoading = false);
     }
   }
-
-
 }

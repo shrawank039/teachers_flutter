@@ -18,12 +18,18 @@ class _TabIndexState extends State<TabIndex> {
       child: Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.green,
           bottom: TabBar(
             tabs: [
-              Tab(text: "Class Room",),
-              Tab(text: "Assignment",),
-              Tab(text: "Homework",),
+              Tab(
+                text: "Class Room",
+              ),
+              Tab(
+                text: "Assignment",
+              ),
+              Tab(
+                text: "Homework",
+              ),
             ],
           ),
           title: Text('Class Room'),

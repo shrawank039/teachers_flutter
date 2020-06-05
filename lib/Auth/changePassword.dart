@@ -5,7 +5,9 @@ import '../Auth/Login.dart';
 import '../CustomDrawer.dart';
 import '../ServerAPI.dart';
 
-void main() => runApp(MaterialApp(home: changePassword(),));
+void main() => runApp(MaterialApp(
+      home: changePassword(),
+    ));
 
 class changePassword extends StatefulWidget {
   @override
@@ -13,7 +15,6 @@ class changePassword extends StatefulWidget {
 }
 
 class _changePasswordState extends State<changePassword> {
-
   bool _obscureText = true;
   bool _obscureText1 = true;
   bool _obscureText2 = true;
@@ -32,7 +33,7 @@ class _changePasswordState extends State<changePassword> {
         key: _scaffolkey,
         drawer: CustomDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.green,
           title: Text('Change Password'),
         ),
         body: SingleChildScrollView(
@@ -49,16 +50,21 @@ class _changePasswordState extends State<changePassword> {
                   ),
                 ),
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               Column(
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         TextFormField(
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
                               oldPassword = value;
                             });
@@ -87,11 +93,11 @@ class _changePasswordState extends State<changePassword> {
                             ),
                           ),
                         ),
-
-                        Container(height: 25,),
-
+                        Container(
+                          height: 25,
+                        ),
                         TextFormField(
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
                               newPassword = value;
                             });
@@ -117,14 +123,13 @@ class _changePasswordState extends State<changePassword> {
                                     }
                                   });
                                 },
-                              )
-                          ),
+                              )),
                         ),
-
-                        Container(height: 25,),
-
+                        Container(
+                          height: 25,
+                        ),
                         TextFormField(
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
                               confirmPassword = value;
                             });
@@ -156,14 +161,17 @@ class _changePasswordState extends State<changePassword> {
                       ],
                     ),
                   ),
-
                   Container(
-                    margin: EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 25),
-                    width: MediaQuery.of(context).size.width,
+                    margin:
+                    EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 25),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     height: 45.0,
                     child: RaisedButton(
                       child: Text('Confirm Change'),
-                      color: Colors.blueGrey,
+                      color: Colors.green,
                       textColor: Colors.white,
                       shape: new RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -171,7 +179,6 @@ class _changePasswordState extends State<changePassword> {
                       onPressed: _changePassword,
                     ),
                   ),
-
                 ],
               ),
               Column(
@@ -191,7 +198,7 @@ class _changePasswordState extends State<changePassword> {
                       Padding(
                         padding: EdgeInsets.only(left: 5.0, bottom: 20),
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             _moveToLogin();
                           },
                           child: Text(
@@ -207,11 +214,23 @@ class _changePasswordState extends State<changePassword> {
                   ),
                 ],
               ),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 child: Center(
-                  child: Text('POWERED BY \n 21 century innovative solutions Pvt. Ltd.', textAlign: TextAlign.center, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),),
+                  child: Text(
+                    'POWERED BY \n 21 century innovative solutions Pvt. Ltd.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey),
+                  ),
                 ),
               )
             ],
@@ -228,28 +247,32 @@ class _changePasswordState extends State<changePassword> {
   }
 
   _changePassword() async {
-
-    if(oldPassword == ""){
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter old password'));
+    if (oldPassword == "") {
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter old password'));
     } else if (newPassword == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter new password'));
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter new password'));
     } else if (confirmPassword == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter confirm password'));
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter confirm password'));
     } else if (newPassword != confirmPassword) {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Confirm password do not match'));
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Confirm password do not match'));
     } else {
+      final result = await ServerAPI()
+          .changePassword(oldPassword, newPassword, confirmPassword);
 
-      final result = await ServerAPI().changePassword(oldPassword, newPassword, confirmPassword);
-
-      if(result['status'] == "failure"){
-        _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
+      if (result['status'] == "failure") {
+        _scaffolkey.currentState
+            .showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
       } else {
-        _scaffolkey.currentState.showSnackBar(ServerAPI.successToast(result['msg'].toString()));
-        Future.delayed(Duration(seconds: 3), (){
+        _scaffolkey.currentState
+            .showSnackBar(ServerAPI.successToast(result['msg'].toString()));
+        Future.delayed(Duration(seconds: 3), () {
           _moveToLogin();
         });
       }
     }
   }
-
 }

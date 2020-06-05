@@ -7,17 +7,15 @@ class Contact extends StatefulWidget {
 }
 
 class _ContactState extends State<Contact> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text('Contact'),
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: SingleChildScrollView(
@@ -75,7 +73,7 @@ class _ContactState extends State<Contact> {
                 height: 45.0,
                 child: RaisedButton(
                   elevation: 5,
-                  color: Colors.deepOrange[700],
+                  color: Colors.green[700],
                   child: Text(
                     "Submit",
                     style: TextStyle(
@@ -95,6 +93,4 @@ class _ContactState extends State<Contact> {
       ),
     );
   }
-
-
 }

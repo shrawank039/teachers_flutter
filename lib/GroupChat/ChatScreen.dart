@@ -14,7 +14,6 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyChatScreen extends StatefulWidget {
-
   final String teacher;
   final String subject;
   final String chat_group_id;
@@ -22,14 +21,14 @@ class MyChatScreen extends StatefulWidget {
   final String class_status;
   final String calss_name;
 
-  MyChatScreen(this.calss_id, this.class_status, this.teacher, this.subject, this.chat_group_id, this.calss_name);
+  MyChatScreen(this.calss_id, this.class_status, this.teacher, this.subject,
+      this.chat_group_id, this.calss_name);
 
   @override
-  _MyChatState createState() =>  _MyChatState();
+  _MyChatState createState() => _MyChatState();
 }
 
 class _MyChatState extends State<MyChatScreen> {
-
   var currentUser;
   List chatHistory = [];
   SocketIOManager manager = SocketIOManager();
@@ -44,7 +43,7 @@ class _MyChatState extends State<MyChatScreen> {
     super.initState();
     getCurrentUser();
     initSocket();
-    if(int.tryParse(widget.class_status) == 1){
+    if (int.tryParse(widget.class_status) == 1) {
       setState(() {
         isActive = true;
       });
@@ -62,7 +61,7 @@ class _MyChatState extends State<MyChatScreen> {
     // Load Chat History
     await getGroupChatHistory(chatRoomID);
     socket = await manager.createInstance(SocketOptions(
-      //Socket IO server URI
+        //Socket IO server URI
         "http://chatserver.21century.in:3000/",
         nameSpace: "/",
         query: {
@@ -71,28 +70,30 @@ class _MyChatState extends State<MyChatScreen> {
           "chat_room_id": chatRoomID
         },
         enableLogging: false,
-        transports: [Transports.WEB_SOCKET/*, Transports.POLLING*/] //Enable required transport
-    ));
+        transports: [
+          Transports.WEB_SOCKET /*, Transports.POLLING*/
+        ] //Enable required transport
+        ));
     socket.onConnect((data) {
       print("connected...");
     });
-    socket.onConnectError((data){
+    socket.onConnectError((data) {
       print("onConnectError");
       print(data);
     });
-    socket.onConnectTimeout((data){
+    socket.onConnectTimeout((data) {
       print("onConnectTimeout");
       print(data);
     });
-    socket.onError((data){
+    socket.onError((data) {
       print("onError");
       print(data);
     });
-    socket.onDisconnect((data){
+    socket.onDisconnect((data) {
       print("onError");
       print(data);
     });
-    socket.on("group_chat_room/$chatRoomID", (message){
+    socket.on("group_chat_room/$chatRoomID", (message) {
       setState(() {
         chatHistory.insert(0, message);
       });
@@ -102,12 +103,19 @@ class _MyChatState extends State<MyChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String pageTitle = widget.subject.toString()+ ", "+ widget.calss_name.toString()+"\nClass Discussion";
-    return  Scaffold(
+    String pageTitle = widget.subject.toString() +
+        ", " +
+        widget.calss_name.toString() +
+        "\nClass Discussion";
+    return Scaffold(
         backgroundColor: Color(0xFFe8dfd8),
-        appBar:  AppBar(
-          backgroundColor: Colors.blueGrey,
-          title: Text(pageTitle, style: TextStyle(color: Colors.white, fontSize: 15), textAlign: TextAlign.left,),
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          title: Text(
+            pageTitle,
+            style: TextStyle(color: Colors.white, fontSize: 15),
+            textAlign: TextAlign.left,
+          ),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.camera_alt),
@@ -125,50 +133,51 @@ class _MyChatState extends State<MyChatScreen> {
             ),
           ],
         ),
-        body:  LoadingOverlay(
-          child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Color(0xFFe8dfd8),
-              child:  Column(
-                children: <Widget>[
-                  //Chat list
-                  Flexible(
-                    child:  ListView.builder(
-                      padding:  EdgeInsets.all(8.0),
-                      reverse: true,
-                      itemBuilder: ( context, int index){
-                        return chatList(chatHistory[index]);
-                      },
-                      itemCount: chatHistory.length,
+        body: LoadingOverlay(
+            child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Color(0xFFe8dfd8),
+                child: Column(
+                  children: <Widget>[
+                    //Chat list
+                    Flexible(
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(8.0),
+                        reverse: true,
+                        itemBuilder: (context, int index) {
+                          return chatList(chatHistory[index]);
+                        },
+                        itemCount: chatHistory.length,
+                      ),
                     ),
-                  ),
-                  Divider(height: 1.0),
-                  chatInput(),
-                ],
-              )
-          ),
-          isLoading: _saving
-        )
-    );
+                    Divider(height: 1.0),
+                    chatInput(),
+                  ],
+                )),
+            isLoading: _saving));
   }
 
-  Widget chatInput(){
-    if(isActive){
+  Widget chatInput() {
+    if (isActive) {
       return Container(
-          decoration: BoxDecoration(color: Theme.of(context).cardColor),
-          child:  IconTheme(
-              data:  IconThemeData(color: Theme.of(context).accentColor),
-              child:  Container(
+          decoration: BoxDecoration(color: Theme
+              .of(context)
+              .cardColor),
+          child: IconTheme(
+              data: IconThemeData(color: Theme
+                  .of(context)
+                  .accentColor),
+              child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 2.0),
-                child:  Row(
+                child: Row(
                   children: <Widget>[
-
                     //Enter Text message here
                     Flexible(
-                      child:  TextField(
+                      child: TextField(
                         controller: _textController,
-                        decoration:  InputDecoration.collapsed(hintText: "Enter message"),
+                        decoration: InputDecoration.collapsed(
+                            hintText: "Enter message"),
                       ),
                     ),
 
@@ -178,28 +187,24 @@ class _MyChatState extends State<MyChatScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 2.0),
                       width: 48.0,
                       height: 48.0,
-                      child:  IconButton(
+                      child: IconButton(
                           icon: Image.asset("assets/images/send_out.png"),
-                          onPressed: _sendChatMessage
-                      ),
+                          onPressed: _sendChatMessage),
                     ),
-
                   ],
                 ),
-              )
-          )
-      );
+              )));
     } else {
       return Container();
     }
   }
 
-  Widget chatList(data){
+  Widget chatList(data) {
     var align = CrossAxisAlignment.end;
     var myLeft = null;
     var myRight = 7.0;
 
-    if(currentUser['id'].toString() !=  data["send_by"].toString()){
+    if (currentUser['id'].toString() != data["send_by"].toString()) {
       align = CrossAxisAlignment.start;
       myLeft = 7.0;
       myRight = null;
@@ -212,8 +217,8 @@ class _MyChatState extends State<MyChatScreen> {
           overflow: Overflow.visible,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
-              margin: EdgeInsets.symmetric(horizontal: 21,vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              margin: EdgeInsets.symmetric(horizontal: 21, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
@@ -226,7 +231,11 @@ class _MyChatState extends State<MyChatScreen> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 2),
-                      child: Text(data["created_date"].toString(),style: TextStyle(fontSize: 12,color: Colors.grey), textAlign: TextAlign.right,),
+                      child: Text(
+                        data["created_date"].toString(),
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        textAlign: TextAlign.right,
+                      ),
                     ),
                   ),
                 ],
@@ -253,34 +262,44 @@ class _MyChatState extends State<MyChatScreen> {
 
   Widget contentWidget(data) {
     if (data['content_type'].toString() == 'text') {
-      return Text(data['content'].toString(), style: TextStyle(fontSize: 17,));
-    } else if(data['content_type'].toString() == 'image') {
+      return Text(data['content'].toString(),
+          style: TextStyle(
+            fontSize: 17,
+          ));
+    } else if (data['content_type'].toString() == 'image') {
       return CachedNetworkImage(
         imageUrl: data['content'].toString(),
-        imageBuilder: (context, imageProvider) => GestureDetector(
-          onTap: (){
-            Route route = MaterialPageRoute(builder: (context) => FileViewer(data['content'].toString(), data['content_type'].toString()));
-            Navigator.push(context, route);
-          },
-          child: Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
+        imageBuilder: (context, imageProvider) =>
+            GestureDetector(
+              onTap: () {
+                Route route = MaterialPageRoute(
+                    builder: (context) =>
+                        FileViewer(data['content'].toString(),
+                            data['content_type'].toString()));
+                Navigator.push(context, route);
+              },
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
         placeholder: (context, url) => CircularProgressIndicator(),
         errorWidget: (context, url, error) => Icon(Icons.error),
       );
-    } else if(data['content_type'].toString() == 'pdf') {
-
+    } else if (data['content_type'].toString() == 'pdf') {
       return GestureDetector(
         onTap: () async {
-          Route route = MaterialPageRoute(builder: (context) => FileViewer(data['content'].toString(), data['content_type'].toString()));
+          Route route = MaterialPageRoute(
+              builder: (context) =>
+                  FileViewer(
+                      data['content'].toString(),
+                      data['content_type'].toString()));
           Navigator.push(context, route);
         },
         child: Container(
@@ -289,7 +308,6 @@ class _MyChatState extends State<MyChatScreen> {
           child: Image.asset('assets/images/pdf.jpg'),
         ),
       );
-
     } else {
       return GestureDetector(
         onTap: () async {
@@ -300,21 +318,22 @@ class _MyChatState extends State<MyChatScreen> {
           height: 150,
           child: Image.asset('assets/images/document.jpg'),
         ),
-      );;
+      );
+      ;
     }
   }
 
-  _sendChatMessage() async{
+  _sendChatMessage() async {
     final user = await ServerAPI().getUserInfo();
     if (socket != null) {
-      if(_textController.text.toString() != ""){
+      if (_textController.text.toString() != "") {
         var msg = {
-          "room_id" :widget.chat_group_id.toString(),
-          "student" : 'teacher',
-          "send_by" : user['id'].toString(),
-          "content_type" : "text",
-          "content" : _textController.text.toString(),
-          "created_date" : _getDate()
+          "room_id": widget.chat_group_id.toString(),
+          "student": 'teacher',
+          "send_by": user['id'].toString(),
+          "content_type": "text",
+          "content": _textController.text.toString(),
+          "created_date": _getDate()
         };
         //String jsonData = json.encode(msg);
         socket.emit("group_chat_room", [msg]);
@@ -329,9 +348,9 @@ class _MyChatState extends State<MyChatScreen> {
 
   getGroupChatHistory(chatRoomID) async {
     final result = await ServerAPI().getGroupChatHistory(chatRoomID);
-    if(result['status'] != "failure"){
+    if (result['status'] != "failure") {
       final data = result["data"];
-      for(var i = 0; i < data.length; i++){
+      for (var i = 0; i < data.length; i++) {
         chatHistory.add(data[i]);
       }
       setState(() {});
@@ -371,18 +390,28 @@ class _MyChatState extends State<MyChatScreen> {
     _hideLoader();
   }
 
-  _getDate(){
+  _getDate() {
     var now = new DateTime.now();
-    return now.year.toString() + "-"+ now.month.toString()+ "-"+ now.day.toString() + " " + now.hour.toString()+":"+now.minute.toString()+":"+now.second.toString();
+    return now.year.toString() +
+        "-" +
+        now.month.toString() +
+        "-" +
+        now.day.toString() +
+        " " +
+        now.hour.toString() +
+        ":" +
+        now.minute.toString() +
+        ":" +
+        now.second.toString();
   }
 
-  _showLoader(){
+  _showLoader() {
     setState(() {
       _saving = true;
     });
   }
 
-  _hideLoader(){
+  _hideLoader() {
     setState(() {
       _saving = false;
     });
@@ -394,9 +423,7 @@ class _MyChatState extends State<MyChatScreen> {
     manager.clearInstance(socket);
     super.dispose();
   }
-
 }
-
 
 class TriangleClipper extends CustomClipper<Path> {
   @override

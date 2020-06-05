@@ -6,7 +6,6 @@ import '../ServerAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SubmitAssignment extends StatefulWidget {
-
   final String classID;
   final String subjectID;
 
@@ -17,7 +16,6 @@ class SubmitAssignment extends StatefulWidget {
 }
 
 class _SubmitAssignmentState extends State<SubmitAssignment> {
-
   final GlobalKey<ScaffoldState> _scaffolkey = GlobalKey<ScaffoldState>();
   String title = "";
   String description = "";
@@ -32,11 +30,11 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     return Scaffold(
       key: _scaffolkey,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text("Submit Assignment"),
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: ListView(
@@ -55,13 +53,15 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                   borderSide: BorderSide(),
                 ),
               ),
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
                   title = value;
                 });
               },
             ),
-            Container(height: 15,),
+            Container(
+              height: 15,
+            ),
             TextFormField(
               maxLines: 6,
               decoration: InputDecoration(
@@ -75,13 +75,14 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                   borderSide: BorderSide(),
                 ),
               ),
-              onChanged: (value){
+              onChanged: (value) {
                 description = value;
               },
             ),
             Row(
-                children: <Widget>[
-                  Expanded(child: Container(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
                     child: TextFormField(
                       controller: attachmentController,
                       enabled: false,
@@ -89,31 +90,34 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                         labelText: 'File',
                       ),
                     ),
-                  ),),
-
-                  GestureDetector(
-                    onTap: (){
-                      _attachFile('camera');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10, top: 20),
-                      child: Icon(Icons.camera_alt, color: Colors.blueGrey,),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _attachFile('camera');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 20),
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.green,
                     ),
                   ),
-
-                  GestureDetector(
-                    onTap: (){
-                      _attachFile('gallery');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Icon(Icons.attach_file, color: Colors.blueGrey),
-                    ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _attachFile('gallery');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Icon(Icons.attach_file, color: Colors.green),
                   ),
-                ],
+                ),
+              ],
             ),
-            Container(height: 5,),
-
+            Container(
+              height: 5,
+            ),
             Row(
               children: <Widget>[
                 Expanded(
@@ -127,7 +131,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                       hintText: 'Deadline',
                       labelText: 'Deadline',
                     ),
-                    onChanged: (value){
+                    onChanged: (value) {
                       setState(() {
                         title = value;
                       });
@@ -138,30 +142,31 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
                   onTap: _selectDate,
                   child: Padding(
                     padding: EdgeInsets.only(top: 15),
-                    child: Icon(Icons.date_range, size: 35, color: Colors.blueGrey),
+                    child:
+                        Icon(Icons.date_range, size: 35, color: Colors.green),
                   ),
                 )
               ],
             ),
-
-            Container(height: 20,),
-
+            Container(
+              height: 20,
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               child: FlatButton.icon(
-                padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.blueGrey)
-                  ),
-                  color: Colors.blueGrey,
+                      side: BorderSide(color: Colors.green)),
+                  color: Colors.green,
                   textColor: Colors.white,
                   onPressed: _submitAssignment,
                   icon: Icon(Icons.attachment),
-                  label: Text("Submit Assignment".toUpperCase(), style: TextStyle(fontSize: 15),)
-              ),
+                  label: Text(
+                    "Submit Assignment".toUpperCase(),
+                    style: TextStyle(fontSize: 15),
+                  )),
             )
-
           ],
         ),
       ),
@@ -188,84 +193,106 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   _selectDate() async {
     var selectedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      lastDate: DateTime(DateTime.now().year, DateTime.now().month + 3, DateTime.now().day),
+      initialDate: DateTime(
+          DateTime
+              .now()
+              .year, DateTime
+          .now()
+          .month, DateTime
+          .now()
+          .day),
+      firstDate: DateTime(
+          DateTime
+              .now()
+              .year, DateTime
+          .now()
+          .month, DateTime
+          .now()
+          .day),
+      lastDate: DateTime(
+          DateTime
+              .now()
+              .year, DateTime
+          .now()
+          .month + 3, DateTime
+          .now()
+          .day),
       builder: (BuildContext context, Widget child) {
         return Theme(
-          data: ThemeData.light().copyWith( primaryColor: Colors.red, accentColor: Colors.red, buttonColor: Colors.red),
+          data: ThemeData.light().copyWith(
+              primaryColor: Colors.red,
+              accentColor: Colors.red,
+              buttonColor: Colors.red),
           child: child,
         );
       },
     );
 
-    String date = selectedDate.year.toString()+"-"+selectedDate.month.toString()+"-"+selectedDate.day.toString();
+    String date = selectedDate.year.toString() +
+        "-" +
+        selectedDate.month.toString() +
+        "-" +
+        selectedDate.day.toString();
     setState(() {
       deadline = date;
       deadlineController.text = date;
     });
-
   }
 
   _submitAssignment() async {
-
-    if(title == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter title'));
-    } else if ( description == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter description'));
-    } else if(deadline == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please select submission deadline'));
+    if (title == "") {
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter title'));
+    } else if (description == "") {
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter description'));
+    } else if (deadline == "") {
+      _scaffolkey.currentState.showSnackBar(
+          ServerAPI.errorToast('Please select submission deadline'));
     } else {
-
       try {
         var me = await ServerAPI().getUserInfo();
         var result;
-        if(attachmentPath == null){
+        if (attachmentPath == null) {
           result = await ServerAPI().submitAssignmentWithoutAttachment({
-            'teacher_id' : me['id'].toString(),
-            'class_id' : widget.classID,
-            'subject_id' : widget.subjectID,
-            'title' : title,
-            'description' : description,
+            'teacher_id': me['id'].toString(),
+            'class_id': widget.classID,
+            'subject_id': widget.subjectID,
+            'title': title,
+            'description': description,
             'last_submission_date': deadline
           });
-
         } else {
           result = await ServerAPI().submitAssignment({
-            'teacher_id' : me['id'].toString(),
-            'class_id' : widget.classID,
-            'subject_id' : widget.subjectID,
-            'title' : title,
-            'description' : description,
+            'teacher_id': me['id'].toString(),
+            'class_id': widget.classID,
+            'subject_id': widget.subjectID,
+            'title': title,
+            'description': description,
             'last_submission_date': deadline
           }, attachmentPath);
         }
 
-        if(result["status"] == "success"){
-
+        if (result["status"] == "success") {
           Fluttertoast.showToast(
               msg: "Assignment Submitted successfully",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.TOP,
               backgroundColor: Colors.green,
               textColor: Colors.white,
-              fontSize: 16.0
-          );
+              fontSize: 16.0);
 
           Future.delayed(Duration(seconds: 3), () {
             Navigator.pop(context);
           });
-
         } else {
-          _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
+          _scaffolkey.currentState
+              .showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
         }
-
-      } catch (e ) {
-        _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(e.toString()));
+      } catch (e) {
+        _scaffolkey.currentState
+            .showSnackBar(ServerAPI.errorToast(e.toString()));
       }
-
     }
-
   }
-
 }

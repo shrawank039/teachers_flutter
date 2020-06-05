@@ -48,7 +48,7 @@ class _AttendanceListState extends State<AttendanceList> {
     String att = "";
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.green,
         title: Text("Student Attendance"),
       ),
       body: Container(
@@ -227,7 +227,8 @@ class _AttendanceListState extends State<AttendanceList> {
 
   _AttendanceList() async {
     print("_AttendanceList");
-    final result = await ServerAPI().calssWiseStudentAttendanceList(date, widget.class_id);
+    final result =
+        await ServerAPI().calssWiseStudentAttendanceList(date, widget.class_id);
     return result["data"];
   }
 }
