@@ -194,29 +194,11 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
     var selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime(
-          DateTime
-              .now()
-              .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day),
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
       firstDate: DateTime(
-          DateTime
-              .now()
-              .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day),
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
       lastDate: DateTime(
-          DateTime
-              .now()
-              .year, DateTime
-          .now()
-          .month + 3, DateTime
-          .now()
-          .day),
+          DateTime.now().year, DateTime.now().month + 3, DateTime.now().day),
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.light().copyWith(

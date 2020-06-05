@@ -137,17 +137,13 @@ class _IndividualChatState extends State<IndividualChat> {
                     Divider(height: 1.0),
                     Container(
                         decoration:
-                        BoxDecoration(color: Theme
-                            .of(context)
-                            .cardColor),
+                            BoxDecoration(color: Theme.of(context).cardColor),
                         child: IconTheme(
                             data: IconThemeData(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor),
+                                color: Theme.of(context).accentColor),
                             child: Container(
                               margin:
-                              const EdgeInsets.symmetric(horizontal: 2.0),
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
                               child: Row(
                                 children: <Widget>[
                                   //Enter Text message here

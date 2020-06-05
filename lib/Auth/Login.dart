@@ -4,13 +4,11 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../ServerAPI.dart';
 
 class Login extends StatefulWidget {
-
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-
   final GlobalKey<ScaffoldState> _scaffolkey = GlobalKey<ScaffoldState>();
 
   var username = "";
@@ -22,7 +20,7 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _isLogin();
+    // _isLogin();
   }
 
   void _toggle() {
@@ -48,7 +46,13 @@ class _LoginState extends State<Login> {
                   width: 200,
                   height: 150,
                 ),
-                Text("Teacher Sign in".toUpperCase(), style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.blueAccent),),
+                Text(
+                  "Teacher Sign in".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent),
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -58,9 +62,10 @@ class _LoginState extends State<Login> {
                     hintText: 'Username',
                   ),
                   onChanged: (value) {
-                    setState(() {
-                      username = value;
-                    },
+                    setState(
+                      () {
+                        username = value;
+                      },
                     );
                   },
                 ),
@@ -110,9 +115,14 @@ class _LoginState extends State<Login> {
                     onPressed: _authCheck,
                   ),
                 ),
-                SizedBox(height: 50,),
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   child: Center(
                     child: Text(
                       'POWERED BY \n 21 century innovative solutions Pvt. Ltd.',
@@ -132,34 +142,29 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _isLogin() async {
-    if(await ServerAPI().isLogin()){
-      print("login");
-      Route route = MaterialPageRoute(builder: (context) => Dashboard());
-      Navigator.pushReplacement(context, route);
-    } else {
-      print("not login");
-    }
-  }
+//  _isLogin() async {
+//    if (await ServerAPI().isLogin()) {
+//      print("login");
+//      Route route = MaterialPageRoute(builder: (context) => Dashboard());
+//      Navigator.pushReplacement(context, route);
+//    } else {
+//      print("not login");
+//    }
+//  }
 
   _authCheck() async {
-
-    if(username == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter username'));
-    } else if ( password == "") {
-      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter password'));
+    if (username == "") {
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter username'));
+    } else if (password == "") {
+      _scaffolkey.currentState
+          .showSnackBar(ServerAPI.errorToast('Please enter password'));
     } else {
-
       try {
+        final result = await ServerAPI().authRequest(
+            {"username": username, "password": password, "role": 3.toString()});
 
-        final result = await ServerAPI().authRequest({
-          "username" : username,
-          "password" : password,
-          "role" : 3.toString()
-        });
-
-        if( result["status"] == "success"){
-
+        if (result["status"] == "success") {
           // Store Data in local storage
           await ServerAPI().setAuthUser(result["data"]);
 
@@ -167,22 +172,20 @@ class _LoginState extends State<Login> {
           var status = await OneSignal.shared.getPermissionSubscriptionState();
           var playerId = status.subscriptionStatus.userId;
           await ServerAPI().updateDeviceID({
-            "student_id" : result["data"]["id"].toString(),
-            "device_id" : playerId.toString()
+            "student_id": result["data"]["id"].toString(),
+            "device_id": playerId.toString()
           });
 
           // Navigate to Dashboard
           Route route = MaterialPageRoute(builder: (context) => Dashboard());
           Navigator.pushReplacement(context, route);
-
         } else {
-          _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result["msg"].toString()));
+          _scaffolkey.currentState
+              .showSnackBar(ServerAPI.errorToast(result["msg"].toString()));
         }
-
-      } catch(e) {
+      } catch (e) {
         print(e.toString());
       }
-
     }
   }
 }

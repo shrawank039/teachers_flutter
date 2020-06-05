@@ -161,13 +161,9 @@ class _MyChatState extends State<MyChatScreen> {
   Widget chatInput() {
     if (isActive) {
       return Container(
-          decoration: BoxDecoration(color: Theme
-              .of(context)
-              .cardColor),
+          decoration: BoxDecoration(color: Theme.of(context).cardColor),
           child: IconTheme(
-              data: IconThemeData(color: Theme
-                  .of(context)
-                  .accentColor),
+              data: IconThemeData(color: Theme.of(context).accentColor),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: Row(

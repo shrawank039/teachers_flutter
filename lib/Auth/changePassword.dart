@@ -56,10 +56,7 @@ class _changePasswordState extends State<changePassword> {
               Column(
                 children: <Widget>[
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

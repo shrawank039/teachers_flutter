@@ -74,9 +74,9 @@ class _TeachersListState extends State<TeachersList> {
           } else {
             return Center(
                 child: Text(
-                  "Loading....",
-                  style: TextStyle(fontSize: 20),
-                ));
+              "Loading....",
+              style: TextStyle(fontSize: 20),
+            ));
           }
         },
       ),

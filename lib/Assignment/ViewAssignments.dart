@@ -53,9 +53,9 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
               if (response.length < 1) {
                 return Center(
                     child: Text(
-                      "No Data Found",
-                      style: TextStyle(fontSize: 20),
-                    ));
+                  "No Data Found",
+                  style: TextStyle(fontSize: 20),
+                ));
               } else {
                 return ListView.builder(
                     padding: EdgeInsets.only(left: 10, right: 10, top: 10),

@@ -63,7 +63,7 @@ class ContactAgreement extends StatelessWidget {
               onPressed: () async {
                 await ServerAPI().addSupport();
                 Route route =
-                MaterialPageRoute(builder: (context) => Contact());
+                    MaterialPageRoute(builder: (context) => Contact());
                 Navigator.push(context, route);
               },
             ),

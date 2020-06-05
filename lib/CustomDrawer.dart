@@ -112,7 +112,7 @@ class _DrawerState extends State<CustomDrawer> {
             ),
             onTap: () {
               Route route =
-              MaterialPageRoute(builder: (context) => Announcement());
+                  MaterialPageRoute(builder: (context) => Announcement());
               Navigator.pushReplacement(context, route);
             },
           ),

@@ -94,9 +94,9 @@ class _ScheduleState extends State<Schedule> {
               } else {
                 return Center(
                     child: Text(
-                      "Loading....",
-                      style: TextStyle(fontSize: 20),
-                    ));
+                  "Loading....",
+                  style: TextStyle(fontSize: 20),
+                ));
               }
             }),
       ),
