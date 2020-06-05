@@ -20,7 +20,7 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _isLogin();
+    _isLogin();
   }
 
   void _toggle() {
@@ -139,15 +139,15 @@ class _LoginState extends State<Login> {
     );
   }
 
-//  _isLogin() async {
-//    if (await ServerAPI().isLogin()) {
-//      print("login");
-//      Route route = MaterialPageRoute(builder: (context) => Dashboard());
-//      Navigator.pushReplacement(context, route);
-//    } else {
-//      print("not login");
-//    }
-//  }
+  _isLogin() async {
+    if (await ServerAPI().isLogin()) {
+      print("login");
+      Route route = MaterialPageRoute(builder: (context) => Dashboard());
+      Navigator.pushReplacement(context, route);
+    } else {
+      print("not login");
+    }
+  }
 
   _authCheck() async {
     if (username == "") {

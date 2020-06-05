@@ -245,26 +245,24 @@ class _IndividualChatState extends State<IndividualChat> {
     } else if (data['content_type'].toString() == 'image') {
       return CachedNetworkImage(
         imageUrl: data['content'].toString(),
-        imageBuilder: (context, imageProvider) =>
-            GestureDetector(
-              onTap: () {
-                Route route = MaterialPageRoute(
-                    builder: (context) =>
-                        FileViewer(data['content'].toString(),
-                            data['content_type'].toString()));
-                Navigator.push(context, route);
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+        imageBuilder: (context, imageProvider) => GestureDetector(
+          onTap: () {
+            Route route = MaterialPageRoute(
+                builder: (context) => FileViewer(data['content'].toString(),
+                    data['content_type'].toString()));
+            Navigator.push(context, route);
+          },
+          child: Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
               ),
             ),
+          ),
+        ),
         placeholder: (context, url) => CircularProgressIndicator(),
         errorWidget: (context, url, error) => Icon(Icons.error),
       );

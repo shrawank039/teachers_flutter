@@ -95,7 +95,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                                   FlatButton.icon(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(18.0),
+                                              BorderRadius.circular(18.0),
                                           side: BorderSide(
                                               color: Colors.blueAccent)),
                                       textColor: Colors.blueAccent,
