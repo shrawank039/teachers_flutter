@@ -119,10 +119,7 @@ class _LoginState extends State<Login> {
                   height: 50,
                 ),
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
                       'POWERED BY \n 21 century innovative solutions Pvt. Ltd.',

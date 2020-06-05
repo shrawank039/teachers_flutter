@@ -159,7 +159,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
                                   Container(
                                     margin:
-                                    EdgeInsets.symmetric(horizontal: 2.0),
+                                        EdgeInsets.symmetric(horizontal: 2.0),
                                     width: 48.0,
                                     height: 48.0,
                                     child: IconButton(

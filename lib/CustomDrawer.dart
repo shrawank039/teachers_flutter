@@ -147,7 +147,7 @@ class _DrawerState extends State<CustomDrawer> {
             ),
             onTap: () {
               Route route =
-              MaterialPageRoute(builder: (context) => changePassword());
+                  MaterialPageRoute(builder: (context) => changePassword());
               Navigator.pushReplacement(context, route);
             },
           ),

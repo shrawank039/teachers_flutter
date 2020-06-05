@@ -160,11 +160,8 @@ class _changePasswordState extends State<changePassword> {
                   ),
                   Container(
                     margin:
-                    EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 25),
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                        EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 25),
+                    width: MediaQuery.of(context).size.width,
                     height: 45.0,
                     child: RaisedButton(
                       child: Text('Confirm Change'),

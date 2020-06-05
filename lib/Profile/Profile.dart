@@ -140,7 +140,7 @@ class _ProfileState extends State<Profile> {
                             Container(
                               margin: EdgeInsets.only(top: 3),
                               child:
-                              Text(response["teacher_address"].toString()),
+                                  Text(response["teacher_address"].toString()),
                             ),
                           ],
                         ),

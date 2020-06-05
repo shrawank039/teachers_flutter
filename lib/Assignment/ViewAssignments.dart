@@ -62,8 +62,8 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                     itemCount: response.length,
                     itemBuilder: (BuildContext context, int index) {
                       var deadline = response[index]['last_submission_date']
-                          .toString() ==
-                          "null"
+                                  .toString() ==
+                              "null"
                           ? ""
                           : response[index]['last_submission_date'].toString();
                       return Card(
