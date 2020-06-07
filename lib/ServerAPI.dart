@@ -130,6 +130,7 @@ class ServerAPI {
 
   Future<Map<String, dynamic>> classSubjectWiseStudentAtendenceList(student_id, class_id, subject_id, month, year) async {
     final userInfo = await this.getUserInfo();
+    print(apiRoot + "/classSubjectWiseStudentAtendenceList?student_id=$student_id&class_id=$class_id&subject_id=$subject_id&month=$month&year=$year");
     final response = await http.get(apiRoot + "/classSubjectWiseStudentAtendenceList?student_id=$student_id&class_id=$class_id&subject_id=$subject_id&month=$month&year=$year", headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -287,6 +288,15 @@ class ServerAPI {
 
   Future<Map<String, dynamic>> submitAssignmentWithoutAttachment(body) async {
     final response = await http.post(apiRoot + "/addWorkAssignment", headers: _buildHeader(), body: body);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<Map<String, dynamic>> contactQuery(body) async {
+    final response = await http.post(apiRoot + "/contactFormQuery", headers: _buildHeader(), body: body);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

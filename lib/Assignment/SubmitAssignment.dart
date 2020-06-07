@@ -226,11 +226,9 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
 
   _submitAssignment() async {
     if (title == "") {
-      _scaffolkey.currentState
-          .showSnackBar(ServerAPI.errorToast('Please enter title'));
+      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter title'));
     } else if (description == "") {
-      _scaffolkey.currentState
-          .showSnackBar(ServerAPI.errorToast('Please enter description'));
+      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter description'));
     } else if (deadline == "") {
       _scaffolkey.currentState.showSnackBar(
           ServerAPI.errorToast('Please select submission deadline'));
