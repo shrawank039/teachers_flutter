@@ -33,7 +33,7 @@ dependencies:
   http: ^0.12.1
   shared_preferences: ^0.5.7+1
   onesignal_flutter: ^2.0.0
-  adhara_socket_io: ^0.4.1
+  adhara_socket_io: ^0.4.2+1
   image_picker: ^0.6.2+3
   cached_network_image: ^2.2.0+1
   url_launcher: ^5.4.7

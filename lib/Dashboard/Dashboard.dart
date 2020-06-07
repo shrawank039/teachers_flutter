@@ -27,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
     'Class Room',
     'Attendance',
     'Profile',
-    'Submit Query',
+    'Administrative \nQuery',
   ];
 
   final carIcons = [
@@ -211,7 +211,7 @@ class _DashboardState extends State<Dashboard> {
                                     androidVersionNames[index],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       color: Colors.black54,
                                       letterSpacing: 0.5,
                                     ),

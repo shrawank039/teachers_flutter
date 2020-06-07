@@ -29,7 +29,7 @@ class _ContactState extends State<Contact> {
       key: _scaffolkey,
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('Submit Query'),
+        title: Text('Administrative Query'),
       ),
       body: GestureDetector(
         onTap: () {
@@ -123,7 +123,7 @@ class _ContactState extends State<Contact> {
                   elevation: 5,
                   color: Colors.green[700],
                   child: Text(
-                    "Submit",
+                    "Submit Query",
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
