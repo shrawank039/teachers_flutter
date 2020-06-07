@@ -27,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
     'Class Room',
     'Attendance',
     'Profile',
-    'Support',
+    'Submit Query',
   ];
 
   final carIcons = [

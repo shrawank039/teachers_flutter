@@ -12,7 +12,7 @@ class _ContactState extends State<Contact> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('Contact'),
+        title: Text('Submit Query'),
       ),
       body: GestureDetector(
         onTap: () {
@@ -44,7 +44,7 @@ class _ContactState extends State<Contact> {
                   child: TextField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Reason to contact',
+                      hintText: 'Reason for Query',
                     ),
                   ),
                 ),
