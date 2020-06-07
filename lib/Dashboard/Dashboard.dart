@@ -4,6 +4,7 @@ import 'package:teachers/Attendance/StudentAttaindance.dart';
 import 'package:teachers/CustomDrawer.dart';
 import 'package:teachers/Profile/Profile.dart';
 import 'package:teachers/ServerAPI.dart';
+import 'package:teachers/Support/Contact.dart';
 
 import '../Announcement/Announcement.dart';
 import '../Fragments/TabIndex.dart';
@@ -25,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
     'Announce-\nment',
     'Class Room',
     'Attendance',
-    'Profile'
+    'Profile',
     'Support',
   ];
 
@@ -34,8 +35,8 @@ class _DashboardState extends State<Dashboard> {
     'assets/images/announcement.png',
     'assets/images/chat.png',
     'assets/images/attendance.png',
-    'assets/images/profile.png'
     'assets/images/profile.png',
+    'assets/images/help.png',
   ];
 
   final colors = [
@@ -180,10 +181,10 @@ class _DashboardState extends State<Dashboard> {
                             Navigator.push(context, route);
                           }
 
-//                        if (index == 4) {
-//                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
-//                          Navigator.push(context, route);
-//                        }
+                        if (index == 5) {
+                          Route route = MaterialPageRoute(builder: (context) => Contact());
+                          Navigator.push(context, route);
+                        }
 
                           if (index == 4) {
                             Route route = MaterialPageRoute(
