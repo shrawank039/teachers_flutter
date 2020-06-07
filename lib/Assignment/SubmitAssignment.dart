@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import '../Dashboard/Dashboard.dart';
 import '../ServerAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
 class SubmitAssignment extends StatefulWidget {
   final String classID;
@@ -27,6 +28,8 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   var attachmentController = TextEditingController();
   var deadlineController = TextEditingController();
 
+  bool _saving = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,145 +38,160 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
         backgroundColor: Colors.green,
         title: Text("Submit Assignment"),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: ListView(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.keyboard),
-                alignLabelWithHint: false,
-                hintStyle: TextStyle(fontSize: 14.0),
-                labelStyle: TextStyle(fontSize: 16.0),
-                hintText: 'Title',
-                labelText: 'Title',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  borderSide: BorderSide(),
+      body: LoadingOverlay(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: ListView(
+            padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.keyboard),
+                  alignLabelWithHint: false,
+                  hintStyle: TextStyle(fontSize: 14.0),
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  hintText: 'Title',
+                  labelText: 'Title',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide(),
+                  ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    title = value;
+                  });
+                },
               ),
-              onChanged: (value) {
-                setState(() {
-                  title = value;
-                });
-              },
-            ),
-            Container(
-              height: 15,
-            ),
-            TextFormField(
-              maxLines: 6,
-              decoration: InputDecoration(
-                alignLabelWithHint: false,
-                hintStyle: TextStyle(fontSize: 14.0),
-                labelStyle: TextStyle(fontSize: 16.0),
-                hintText: 'Description',
-                labelText: 'Description',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  borderSide: BorderSide(),
+              Container(
+                height: 15,
+              ),
+              TextFormField(
+                maxLines: 6,
+                decoration: InputDecoration(
+                  alignLabelWithHint: false,
+                  hintStyle: TextStyle(fontSize: 14.0),
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  hintText: 'Description',
+                  labelText: 'Description',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide(),
+                  ),
                 ),
+                onChanged: (value) {
+                  description = value;
+                },
               ),
-              onChanged: (value) {
-                description = value;
-              },
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: TextFormField(
-                      controller: attachmentController,
-                      enabled: false,
-                      decoration: const InputDecoration(
-                        labelText: 'File',
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: TextFormField(
+                        controller: attachmentController,
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          labelText: 'File',
+                        ),
                       ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _attachFile('camera');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 20),
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _attachFile('gallery');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Icon(Icons.attach_file, color: Colors.green),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              height: 5,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    enabled: false,
-                    controller: deadlineController,
-                    decoration: InputDecoration(
-                      alignLabelWithHint: false,
-                      hintStyle: TextStyle(fontSize: 14.0),
-                      labelStyle: TextStyle(fontSize: 16.0),
-                      hintText: 'Deadline',
-                      labelText: 'Deadline',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        title = value;
-                      });
+                  GestureDetector(
+                    onTap: () {
+                      _attachFile('camera');
                     },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 20),
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: _selectDate,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child:
-                        Icon(Icons.date_range, size: 35, color: Colors.green),
+                  GestureDetector(
+                    onTap: () {
+                      _attachFile('gallery');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Icon(Icons.attach_file, color: Colors.green),
+                    ),
                   ),
-                )
-              ],
-            ),
-            Container(
-              height: 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: FlatButton.icon(
+                ],
+              ),
+              Container(
+                height: 5,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      enabled: false,
+                      controller: deadlineController,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: false,
+                        hintStyle: TextStyle(fontSize: 14.0),
+                        labelStyle: TextStyle(fontSize: 16.0),
+                        hintText: 'Deadline',
+                        labelText: 'Deadline',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          title = value;
+                        });
+                      },
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _selectDate,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 15),
+                      child:
+                          Icon(Icons.date_range, size: 35, color: Colors.green),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                height: 20,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: FlatButton.icon(
 
-                  padding: EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.green)),
-                  color: Colors.green,
-                  textColor: Colors.white,
-                  onPressed: _submitAssignment,
-                  icon: Icon(Icons.attachment),
-                  label: Text(
-                    "Submit Assignment".toUpperCase(),
-                    style: TextStyle(fontSize: 15),
-                  )),
-            )
-          ],
+                    padding: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: BorderSide(color: Colors.green)),
+                    color: Colors.green,
+                    textColor: Colors.white,
+                    onPressed: _submitAssignment,
+                    icon: Icon(Icons.attachment),
+                    label: Text(
+                      "Submit Assignment".toUpperCase(),
+                      style: TextStyle(fontSize: 15),
+                    )),
+              )
+            ],
+          ),
         ),
+          isLoading: _saving
       ),
     );
+  }
+
+  _showLoader() {
+    setState(() {
+      _saving = true;
+    });
+  }
+
+  _hideLoader() {
+    setState(() {
+      _saving = false;
+    });
   }
 
   _attachFile(type) async {
@@ -225,6 +243,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   }
 
   _submitAssignment() async {
+
     if (title == "") {
       _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter title'));
     } else if (description == "") {
@@ -234,6 +253,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
           ServerAPI.errorToast('Please select submission deadline'));
     } else {
       try {
+        _showLoader();
         var me = await ServerAPI().getUserInfo();
         var result;
         if (attachmentPath == null) {
@@ -264,16 +284,16 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
               backgroundColor: Colors.green,
               textColor: Colors.white,
               fontSize: 16.0);
-
+          _hideLoader();
           Navigator.pop(context);
 
         } else {
-          _scaffolkey.currentState
-              .showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
+          _hideLoader();
+          _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
         }
       } catch (e) {
-        _scaffolkey.currentState
-            .showSnackBar(ServerAPI.errorToast(e.toString()));
+        _hideLoader();
+        _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(e.toString()));
       }
     }
   }

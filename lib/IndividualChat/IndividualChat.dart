@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 class IndividualChat extends StatefulWidget {
+
   final String teacher;
   final String subject;
   final String chat_group_id;
