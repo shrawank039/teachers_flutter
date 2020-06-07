@@ -169,7 +169,7 @@ class _DrawerState extends State<CustomDrawer> {
                 color: Colors.black54,
               ),
             ),
-            trailing: Text("V3.0.1"),
+            trailing: Text("V3.0.2"),
           ),
         ],
       ),
