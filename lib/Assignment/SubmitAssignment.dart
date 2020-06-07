@@ -22,6 +22,8 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
   var attachmentPath;
   String deadline = "";
 
+  bool isSubmitted = false;
+
   var attachmentController = TextEditingController();
   var deadlineController = TextEditingController();
 
@@ -154,6 +156,7 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
             Container(
               width: MediaQuery.of(context).size.width,
               child: FlatButton.icon(
+
                   padding: EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -259,14 +262,13 @@ class _SubmitAssignmentState extends State<SubmitAssignment> {
           Fluttertoast.showToast(
               msg: "Assignment Submitted successfully",
               toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.TOP,
+              gravity: ToastGravity.CENTER,
               backgroundColor: Colors.green,
               textColor: Colors.white,
               fontSize: 16.0);
 
-          Future.delayed(Duration(seconds: 3), () {
-            Navigator.pop(context);
-          });
+          Navigator.pop(context);
+
         } else {
           _scaffolkey.currentState
               .showSnackBar(ServerAPI.errorToast(result['msg'].toString()));

@@ -25,17 +25,17 @@ class _DashboardState extends State<Dashboard> {
     'Announce-\nment',
     'Class Room',
     'Attendance',
-    //'Support',
     'Profile'
+    'Support',
   ];
 
   final carIcons = [
     'assets/images/schedule.png',
     'assets/images/announcement.png',
     'assets/images/chat.png',
-    //'assets/images/profile.png',
     'assets/images/attendance.png',
     'assets/images/profile.png'
+    'assets/images/profile.png',
   ];
 
   final colors = [
@@ -43,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
     Colors.red[300],
     Colors.green[300],
     Colors.purple[200],
-    //Colors.green[300],
+    Colors.green[300],
     Colors.purple[300],
   ];
 

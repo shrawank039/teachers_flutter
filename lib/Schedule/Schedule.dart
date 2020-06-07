@@ -10,6 +10,7 @@ class Schedule extends StatefulWidget {
 class _ScheduleState extends State<Schedule> {
   List subjectList = [];
   bool isFirst = true;
+  String selected;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class _ScheduleState extends State<Schedule> {
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             isExpanded: true,
-                            value: keyName[0],
+                            value: selected,
                             hint: Text('Select Day'),
                             items: keyName.map((item) {
                               return DropdownMenuItem<String>(
@@ -55,6 +56,7 @@ class _ScheduleState extends State<Schedule> {
                             }).toList(),
                             onChanged: (value) {
                               setState(() {
+                                selected = value;
                                 subjectList = response[value];
                               });
                             },
@@ -63,32 +65,8 @@ class _ScheduleState extends State<Schedule> {
                       ),
                     ),
 
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                        itemCount: subjectList.length,
-                        itemBuilder: (BuildContext context, int subIndex) {
-                          return Card(
-                            child: ListTile(
-                              title: Text(
-                                subjectList[subIndex]['subject_name']
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.blueAccent),
-                              ),
-                              subtitle: Text(
-                                subjectList[subIndex]['class_name'].toString(),
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              trailing: Text(
-                                  "Time : \n" +
-                                      subjectList[subIndex]['timeslot']
-                                          .toString(),
-                                  style: TextStyle(fontSize: 18)),
-                            ),
-                          );
-                        }),
+                    scheduleList()
+
                   ],
                 );
               } else {
@@ -103,6 +81,35 @@ class _ScheduleState extends State<Schedule> {
     );
   }
 
+  Widget scheduleList(){
+    if(subjectList == null || subjectList == [] || subjectList == ""){
+      return Center(child: Text("No Records Found".toUpperCase()),);
+    } else {
+      return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+          itemCount: subjectList.length,
+          itemBuilder: (BuildContext context, int subIndex) {
+            return Card(
+              child: ListTile(
+                title: Text(
+                  subjectList[subIndex]['subject_name']
+                      .toString(),
+                  style: TextStyle(
+                      fontSize: 18, color: Colors.blueAccent),
+                ),
+                subtitle: Text(
+                  subjectList[subIndex]['class_name'].toString(),
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: Text("Time : \n" + subjectList[subIndex]['timeslot'].toString(), style: TextStyle(fontSize: 18)),
+              ),
+            );
+          });
+    }
+  }
+
   _weeklyScheduleClass() async {
     final result = await ServerAPI().weeklyScheduleClass();
     if (isFirst) {
@@ -111,6 +118,7 @@ class _ScheduleState extends State<Schedule> {
         keyName.add(key);
       });
       setState(() {
+        selected = keyName[0];
         subjectList = result['data'][keyName[0]];
         isFirst = false;
       });

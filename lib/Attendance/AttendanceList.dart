@@ -13,14 +13,13 @@ class AttendanceList extends StatefulWidget {
 }
 
 class _AttendanceListState extends State<AttendanceList> {
-  String date = "2020-05-20";
-  int a = 0;
-  int p = 0;
+  String date = "${DateTime.now().toLocal()}".split(' ')[0];
   DateTime selectedDate = DateTime.now();
+  String absent = '0';
+  String present = '0';
+  List attendance = [];
 
   Future<Null> _selectDate(BuildContext context) async {
-//    a = 0;
-//    p = 0;
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -31,6 +30,7 @@ class _AttendanceListState extends State<AttendanceList> {
         selectedDate = picked;
       });
     date = "${selectedDate.toLocal()}".split(' ')[0];
+    _attendanceList();
   }
 
   var appBar = null;
@@ -39,8 +39,7 @@ class _AttendanceListState extends State<AttendanceList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    p = p;
-    a = a;
+    _attendanceList();
   }
 
   @override
@@ -106,14 +105,7 @@ class _AttendanceListState extends State<AttendanceList> {
                         color: Colors.green,
                         margin: EdgeInsets.all(5.0),
                         padding: EdgeInsets.all(7.0),
-                        child: Text(
-                          p.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: Text(present, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white,),),
                       )
                     ],
                   ),
@@ -131,14 +123,7 @@ class _AttendanceListState extends State<AttendanceList> {
                         color: Colors.red,
                         margin: EdgeInsets.all(5.0),
                         padding: EdgeInsets.all(7.0),
-                        child: Text(
-                          a.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: Text(absent, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white,),),
                       )
                     ],
                   ),
@@ -149,73 +134,47 @@ class _AttendanceListState extends State<AttendanceList> {
               margin: EdgeInsets.only(top: 10.0),
               width: double.infinity,
               height: MediaQuery.of(context).size.height - 220,
-              child: FutureBuilder(
-                future: _AttendanceList(),
-                builder: (BuildContext context, snapshot) {
-                  var response = snapshot.data;
-                  p = 0;
-                  a = 0;
-                  if (response != null) {
-                    return ListView.builder(
-                      itemCount: response.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (response[index]['status'].toString() == "1") {
-                          p = p + 1;
-                          att = "P";
-                        } else {
-                          att = "A";
-                          a = a + 1;
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              p = p;
-                              a = a;
-                            });
-                          },
-                          child: Card(
-                            margin: EdgeInsets.all(10.0),
-                            child: Container(
-                              padding: EdgeInsets.all(20.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(
-                                    child: Text(
-                                      response[index]['student_name']
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      att,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+              child: ListView.builder(
+                itemCount: attendance.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if(attendance[index]["attendence"] == 0) {
+                    att = "A";
+                  } else {
+                    att = "P";
+                  }
+                  return Card(
+                    margin: EdgeInsets.all(10.0),
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              attendance[index]['student_name']
+                                  .toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.grey,
                               ),
                             ),
                           ),
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(
-                        child: Text(
-                      "Loading....",
-                      style: TextStyle(fontSize: 20),
-                    ));
-                  }
+                          Container(
+                            child: Text(
+                              att,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
@@ -225,10 +184,40 @@ class _AttendanceListState extends State<AttendanceList> {
     );
   }
 
-  _AttendanceList() async {
-    print("_AttendanceList");
-    final result =
-        await ServerAPI().calssWiseStudentAttendanceList(date, widget.class_id);
-    return result["data"];
+  _updatePresentCount(data) {
+    int count = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]['attendence'] == 1) {
+        count = count + 1;
+      }
+    }
+    setState(() {
+      present = count.toString();
+    });
+    print(present);
   }
+
+  _updateAbsentCount(data) {
+    int count = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]['attendence'] == 0) {
+        count = count + 1;
+      }
+    }
+    setState(() {
+      absent = count.toString();
+    });
+    print(absent);
+  }
+
+  _attendanceList() async {
+    final result = await ServerAPI().calssWiseStudentAttendanceList(date, widget.class_id, widget.subject_id);
+    print(result);
+    _updatePresentCount(result["data"]);
+    _updateAbsentCount(result["data"]);
+    setState(() {
+      attendance = result["data"];
+    });
+  }
+
 }

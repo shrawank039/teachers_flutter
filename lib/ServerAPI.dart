@@ -117,11 +117,9 @@ class ServerAPI {
     }
   }
 
-  Future<Map<String, dynamic>> calssWiseStudentAttendanceList(
-      String date, String class_id) async {
+  Future<Map<String, dynamic>> calssWiseStudentAttendanceList(String date, String class_id, String subjectID) async {
     final userInfo = await this.getUserInfo();
-    final response = await http.get(
-        apiRoot + "/getClassWiseAttendence?date=$date&class_id=$class_id",
+    final response = await http.get(apiRoot + "/getClassWiseAttendence?date=$date&class_id=$class_id&subject_id=$subjectID",
         headers: _buildHeader());
     if (response.statusCode == 200) {
       return json.decode(response.body);
