@@ -23,26 +23,30 @@ class _AnnouncementState extends State<Announcement> {
             var response = snapshot.data;
             if (response != null) {
               return ListView.builder(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 15),
                   itemCount: response.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(response[index]['title'].toString()),
-                            subtitle: Text(
-                                response[index]['created_date'].toString()),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
-                            child: Text(
-                              response[index]['description'].toString(),
-                              textAlign: TextAlign.justify,
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Card(
+                        elevation: 5.0,
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(response[index]['title'].toString()),
+                              subtitle: Text(
+                                  response[index]['created_date'].toString()),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 15, right: 15, bottom: 15),
+                              child: Text(
+                                response[index]['description'].toString(),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   });

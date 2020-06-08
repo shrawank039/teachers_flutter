@@ -126,9 +126,9 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
             } else {
               return Center(
                   child: Text(
-                    "Loading....",
-                    style: TextStyle(fontSize: 20),
-                  ));
+                "Loading....",
+                style: TextStyle(fontSize: 20),
+              ));
             }
           }),
     );
