@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Global.dart';
 import '../IndividualChat/IndividualChat.dart';
 import '../ServerAPI.dart';
 
@@ -72,11 +73,7 @@ class _TeachersListState extends State<TeachersList> {
                   );
                 });
           } else {
-            return Center(
-                child: Text(
-              "Loading....",
-              style: TextStyle(fontSize: 20),
-            ));
+            return Center(child: Global.spinkitCircle);
           }
         },
       ),

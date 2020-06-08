@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teachers/CustomDrawer.dart';
 
+import '../Global.dart';
 import '../ServerAPI.dart';
 
 class Announcement extends StatefulWidget {
@@ -22,14 +23,12 @@ class _AnnouncementState extends State<Announcement> {
           builder: (BuildContext context, snapshot) {
             var response = snapshot.data;
             if (response != null) {
-
-              if(response.length < 1 ) {
+              if (response.length < 1) {
                 return Center(
                     child: Text(
-                      "NO RECORDS FOUND",
-                      style: TextStyle(fontSize: 20),
-                    )
-                );
+                  "NO RECORDS FOUND",
+                  style: TextStyle(fontSize: 20),
+                ));
               }
 
               return ListView.builder(
@@ -61,11 +60,7 @@ class _AnnouncementState extends State<Announcement> {
                     );
                   });
             } else {
-              return Center(
-                  child: Text(
-                "Loading....",
-                style: TextStyle(fontSize: 20),
-              ));
+              return Center(child: Global.spinkitCircle);
             }
           }),
     );

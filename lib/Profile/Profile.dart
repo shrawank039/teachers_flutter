@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:teachers/CustomDrawer.dart';
 import '../Auth/Login.dart';
 
+import '../Global.dart';
 import '../ServerAPI.dart';
 
 class Profile extends StatefulWidget {
@@ -156,11 +157,7 @@ class _ProfileState extends State<Profile> {
                 ),
               );
             } else {
-              return Center(
-                  child: Text(
-                "Loading....",
-                style: TextStyle(fontSize: 20),
-              ));
+              return Center(child: Global.spinkitCircle);
             }
           }),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Global.dart';
 import 'SubmitAssignment.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../ServerAPI.dart';
@@ -124,11 +125,7 @@ class _ViewAssignmentsState extends State<ViewAssignments> {
                     });
               }
             } else {
-              return Center(
-                  child: Text(
-                "Loading....",
-                style: TextStyle(fontSize: 20),
-              ));
+              return Center(child: Global.spinkitCircle);
             }
           }),
     );

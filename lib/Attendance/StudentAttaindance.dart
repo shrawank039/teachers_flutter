@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../Global.dart';
 import '../ServerAPI.dart';
 import 'AttendanceList.dart';
 import 'DownloadAttendance.dart';
@@ -122,11 +123,7 @@ class _StudentAttaindanceState extends State<StudentAttaindance> {
                 },
               );
             } else {
-              return Center(
-                  child: Text(
-                "Loading....",
-                style: TextStyle(fontSize: 20),
-              ));
+              return Center(child: Global.spinkitCircle);
             }
           }),
     );

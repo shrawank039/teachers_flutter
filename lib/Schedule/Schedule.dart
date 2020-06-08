@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Global.dart';
 import '../ServerAPI.dart';
 import '../CustomDrawer.dart';
 
@@ -66,24 +67,21 @@ class _ScheduleState extends State<Schedule> {
                     ),
 
                     scheduleList()
-
                   ],
                 );
               } else {
-                return Center(
-                    child: Text(
-                  "Loading....",
-                  style: TextStyle(fontSize: 20),
-                ));
+                return Center(child: Global.spinkitCircle);
               }
             }),
       ),
     );
   }
 
-  Widget scheduleList(){
-    if(subjectList == null || subjectList == [] || subjectList == ""){
-      return Center(child: Text("No Records Found".toUpperCase()),);
+  Widget scheduleList() {
+    if (subjectList == null || subjectList == [] || subjectList == "") {
+      return Center(
+        child: Text("No Records Found".toUpperCase()),
+      );
     } else {
       return ListView.builder(
           shrinkWrap: true,
@@ -94,16 +92,16 @@ class _ScheduleState extends State<Schedule> {
             return Card(
               child: ListTile(
                 title: Text(
-                  subjectList[subIndex]['subject_name']
-                      .toString(),
-                  style: TextStyle(
-                      fontSize: 18, color: Colors.blueAccent),
+                  subjectList[subIndex]['subject_name'].toString(),
+                  style: TextStyle(fontSize: 18, color: Colors.blueAccent),
                 ),
                 subtitle: Text(
                   subjectList[subIndex]['class_name'].toString(),
                   style: TextStyle(fontSize: 16),
                 ),
-                trailing: Text("Time : \n" + subjectList[subIndex]['timeslot'].toString(), style: TextStyle(fontSize: 18)),
+                trailing: Text(
+                    "Time : \n" + subjectList[subIndex]['timeslot'].toString(),
+                    style: TextStyle(fontSize: 18)),
               ),
             );
           });
