@@ -4,6 +4,7 @@ import 'package:teachers/Attendance/StudentAttaindance.dart';
 import 'package:teachers/CustomDrawer.dart';
 import 'package:teachers/Profile/Profile.dart';
 import 'package:teachers/ServerAPI.dart';
+import 'package:teachers/Support/Contact.dart';
 
 import '../Announcement/Announcement.dart';
 import '../Fragments/TabIndex.dart';
@@ -25,17 +26,17 @@ class _DashboardState extends State<Dashboard> {
     'Announce-\nment',
     'Class Room',
     'Attendance',
-    //'Support',
-    'Profile'
+    'Profile',
+    'Administrative \nQuery',
   ];
 
   final carIcons = [
     'assets/images/schedule.png',
     'assets/images/announcement.png',
     'assets/images/chat.png',
-    //'assets/images/profile.png',
     'assets/images/attendance.png',
-    'assets/images/profile.png'
+    'assets/images/profile.png',
+    'assets/images/help.png',
   ];
 
   final colors = [
@@ -43,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
     Colors.red[300],
     Colors.green[300],
     Colors.purple[200],
-    //Colors.green[300],
+    Colors.green[300],
     Colors.purple[300],
   ];
 
@@ -180,10 +181,10 @@ class _DashboardState extends State<Dashboard> {
                             Navigator.push(context, route);
                           }
 
-//                        if (index == 4) {
-//                          Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
-//                          Navigator.push(context, route);
-//                        }
+                        if (index == 5) {
+                          Route route = MaterialPageRoute(builder: (context) => Contact());
+                          Navigator.push(context, route);
+                        }
 
                           if (index == 4) {
                             Route route = MaterialPageRoute(
@@ -210,7 +211,7 @@ class _DashboardState extends State<Dashboard> {
                                     androidVersionNames[index],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       color: Colors.black54,
                                       letterSpacing: 0.5,
                                     ),

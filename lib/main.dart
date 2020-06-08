@@ -18,36 +18,59 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _isLogin();
-  }
+  class _MyAppState extends State<MyApp> {
+    @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fluter',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        accentColor: Colors.green,
-        primaryColor: Colors.white,
-        primaryColorDark: Colors.white,
-        fontFamily: 'Montserrat Regularr',
-      ),
-      home: Login(),
-    );
-  }
-
-  _isLogin() async {
-    if (await ServerAPI().isLogin()) {
-      print("login");
-      Route route = MaterialPageRoute(builder: (context) => Dashboard());
-      Navigator.pushReplacement(context, route);
-    } else {
-      print("not login");
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: 'Fluter',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          accentColor: Colors.green,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
+          fontFamily: 'Montserrat Regularr',
+        ),
+        home: SetHomePage(),
+      );
     }
   }
-}
+
+  class SetHomePage extends StatefulWidget {
+    @override
+    _SetHomePageState createState() => _SetHomePageState();
+  }
+
+  class _SetHomePageState extends State<SetHomePage> {
+    @override
+    Widget build(BuildContext context) {
+      return FutureBuilder(
+          future: getLoginStatus(),
+          builder: (BuildContext context, snapshot) {
+            if(snapshot.data != null){
+              if(snapshot.data){
+                return Dashboard();
+              } else {
+                return Login();
+              }
+            } else {
+              return Container();
+            }
+          }
+      );
+    }
+
+    getLoginStatus() async {
+      if (await ServerAPI().isLogin()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+

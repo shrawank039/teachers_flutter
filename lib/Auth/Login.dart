@@ -177,8 +177,7 @@ class _LoginState extends State<Login> {
           Route route = MaterialPageRoute(builder: (context) => Dashboard());
           Navigator.pushReplacement(context, route);
         } else {
-          _scaffolkey.currentState
-              .showSnackBar(ServerAPI.errorToast(result["msg"].toString()));
+          _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result["msg"].toString()));
         }
       } catch (e) {
         print(e.toString());

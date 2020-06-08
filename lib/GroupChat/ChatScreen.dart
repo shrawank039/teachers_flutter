@@ -48,6 +48,9 @@ class _MyChatState extends State<MyChatScreen> {
         isActive = true;
       });
     }
+
+    print(widget.chat_group_id);
+
   }
 
   getCurrentUser() async {
@@ -69,11 +72,12 @@ class _MyChatState extends State<MyChatScreen> {
           "user_id": userId,
           "chat_room_id": chatRoomID
         },
-        enableLogging: false,
+        enableLogging: true,
         transports: [
           Transports.WEB_SOCKET /*, Transports.POLLING*/
         ] //Enable required transport
         ));
+
     socket.onConnect((data) {
       print("connected...");
     });
@@ -94,6 +98,7 @@ class _MyChatState extends State<MyChatScreen> {
       print(data);
     });
     socket.on("group_chat_room/$chatRoomID", (message) {
+      print(message);
       setState(() {
         chatHistory.insert(0, message);
       });
@@ -223,6 +228,17 @@ class _MyChatState extends State<MyChatScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        data["sender_name"].toString(),
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
                   contentWidget(data),
                   Container(
                     child: Padding(
@@ -234,6 +250,7 @@ class _MyChatState extends State<MyChatScreen> {
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -311,7 +328,6 @@ class _MyChatState extends State<MyChatScreen> {
           child: Image.asset('assets/images/document.jpg'),
         ),
       );
-      ;
     }
   }
 
@@ -323,6 +339,7 @@ class _MyChatState extends State<MyChatScreen> {
           "room_id": widget.chat_group_id.toString(),
           "student": 'teacher',
           "send_by": user['id'].toString(),
+          "sender_name": user['teacher_name'].toString(),
           "content_type": "text",
           "content": _textController.text.toString(),
           "created_date": _getDate()
@@ -369,6 +386,7 @@ class _MyChatState extends State<MyChatScreen> {
         "room_id": widget.chat_group_id.toString(),
         "student": 'teacher',
         "send_by": user['id'].toString(),
+        "sender_name": user['teacher_name'].toString(),
         "content_type": response['data']['fileType'],
         "content": response['data']['attachmentUrl'],
         "created_date": _getDate()

@@ -22,6 +22,16 @@ class _AnnouncementState extends State<Announcement> {
           builder: (BuildContext context, snapshot) {
             var response = snapshot.data;
             if (response != null) {
+
+              if(response.length < 1 ) {
+                return Center(
+                    child: Text(
+                      "NO RECORDS FOUND",
+                      style: TextStyle(fontSize: 20),
+                    )
+                );
+              }
+
               return ListView.builder(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 15),
                   itemCount: response.length,
@@ -63,8 +73,6 @@ class _AnnouncementState extends State<Announcement> {
 
   _getAnnouncement() async {
     final result = await ServerAPI().announcement();
-    if (result["data"].length > 0) {
-      return result["data"];
-    }
+    return result["data"];
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../ServerAPI.dart';
 
 class Contact extends StatefulWidget {
   @override
@@ -7,12 +10,26 @@ class Contact extends StatefulWidget {
 }
 
 class _ContactState extends State<Contact> {
+
+  List<String> text = [
+    'I have not shared my password with anyone.',
+    'I am responsible for the content typed in query.',
+    'I understand that necessary disciplinary action will be taken against me in case of '
+        'use of derogarory words or false statement.'
+  ];
+
+  String title ="";
+  String description = "";
+
+  final GlobalKey<ScaffoldState> _scaffolkey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffolkey,
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('Contact'),
+        title: Text('Administrative Query'),
       ),
       body: GestureDetector(
         onTap: () {
@@ -42,9 +59,14 @@ class _ContactState extends State<Contact> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextField(
+                    onChanged: (value){
+                      setState(() {
+                        title = value;
+                      });
+                    },
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Reason to contact',
+                      hintText: 'Reason for Query',
                     ),
                   ),
                 ),
@@ -56,6 +78,11 @@ class _ContactState extends State<Contact> {
                   borderRadius: BorderRadius.all(Radius.zero),
                 ),
                 child: TextField(
+                  onChanged: (value){
+                    setState(() {
+                      description = value;
+                    });
+                  },
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   maxLength: 200,
@@ -67,6 +94,27 @@ class _ContactState extends State<Contact> {
                   ),
                 ),
               ),
+
+              Column(
+                children: <Widget>[
+                  Container(
+                    child: Container(
+                      child: Column(
+                        children: text
+                            .map((t) => CheckboxListTile(
+                            title: Text(t),
+                            value: true,
+                            onChanged: (bool value) {},
+                            controlAffinity: ListTileControlAffinity.leading,
+                          ),
+                        ).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+
               Container(
                 margin: EdgeInsets.only(left: 10, top: 20, right: 10),
                 width: double.infinity,
@@ -75,7 +123,7 @@ class _ContactState extends State<Contact> {
                   elevation: 5,
                   color: Colors.green[700],
                   child: Text(
-                    "Submit",
+                    "Submit Query",
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
@@ -84,13 +132,35 @@ class _ContactState extends State<Contact> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(2.0),
                   ),
-                  onPressed: () {},
+                  onPressed: _submitQuery,
                 ),
               ),
+              Container(height: 70,)
             ],
           ),
         ),
       ),
     );
   }
+
+  _submitQuery() async {
+    if(title == ""){
+      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter title'));
+    } else if( description == "") {
+      _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast('Please enter description'));
+    } else {
+      final result = await ServerAPI().contactQuery({
+        "title" : title,
+        "description" : description,
+        "usertype" : "teacher"
+      });
+      if(result['status'] == "success") {
+        Fluttertoast.showToast(msg: "Query Submitted successfully", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 16.0);
+        Navigator.pop(context);
+      } else {
+        _scaffolkey.currentState.showSnackBar(ServerAPI.errorToast(result['msg'].toString()));
+      }
+    }
+  }
+
 }

@@ -14,6 +14,7 @@ class StudentWiseAttendance extends StatefulWidget {
 }
 
 class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
+
   String absent = '0';
   String present = '0';
 
@@ -35,6 +36,8 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
   ];
   String student = "9";
   String selectMonth = "05";
+
+  bool performSearch = false;
 
   @override
   void initState() {
@@ -105,65 +108,10 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
                 color: Colors.green,
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 7.0),
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Present',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      Container(
-                        color: Colors.green,
-                        margin: EdgeInsets.all(5.0),
-                        padding: EdgeInsets.all(7.0),
-                        child: Text(
-                          present,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Absent',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      Container(
-                        color: Colors.red,
-                        margin: EdgeInsets.all(5.0),
-                        padding: EdgeInsets.all(7.0),
-                        child: Text(
-                          absent,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+
+
+            showStatus(),
+
             Container(
               height: 15,
             ),
@@ -213,6 +161,72 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
     );
   }
 
+  Widget showStatus(){
+    if(performSearch){
+      return Container(
+        padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 7.0),
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'Present',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                ),
+                Container(
+                  color: Colors.green,
+                  margin: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    present,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Absent',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                ),
+                Container(
+                  color: Colors.red,
+                  margin: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    absent,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   getStatus(status) {
     if (status == 1) {
       return "P";
@@ -228,6 +242,9 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
     });
     _updatePresentCount(result["data"]);
     _updateAbsentCount(result["data"]);
+    setState(() {
+      performSearch = true;
+    });
   }
 
   _updatePresentCount(data) {
@@ -257,8 +274,7 @@ class _StudentWiseAttendanceState extends State<StudentWiseAttendance> {
   }
 
   _getStudentList() async {
-    final result = await ServerAPI()
-        .individualChatRoomList(widget.classID, widget.subjectID);
+    final result = await ServerAPI().individualChatRoomList(widget.classID, widget.subjectID);
     setState(() {
       student = result["data"][0]['id'].toString();
       studentList = result["data"];
