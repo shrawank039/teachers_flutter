@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet/jitsi_meeting_listener.dart';
 import '../ServerAPI.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:image_picker/image_picker.dart';
@@ -122,20 +124,10 @@ class _MyChatState extends State<MyChatScreen> {
             textAlign: TextAlign.left,
           ),
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.camera_alt),
-              tooltip: 'Pick From Camera',
-              onPressed: () async {
-                await _selectAttachment('camera');
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.attach_file),
-              tooltip: 'Pick from Gallery',
-              onPressed: () async {
-                await _selectAttachment('gallery');
-              },
-            ),
+            isActive ? IconButton(icon: const Icon(Icons.mic_none), tooltip: 'Audio Class', onPressed: _startAudioClass ) : Container(),
+            isActive ? IconButton(icon: const Icon(Icons.missed_video_call), tooltip: 'Audio Class', onPressed: _startVideoClass) : Container(),
+            isActive ? IconButton(icon: const Icon(Icons.camera_alt), tooltip: 'Pick From Camera', onPressed: () async {await _selectAttachment('camera');}) : Container(),
+            isActive ? IconButton(icon: const Icon(Icons.attach_file), tooltip: 'Pick from Gallery', onPressed: () async {await _selectAttachment('gallery');}) : Container(),
           ],
         ),
         body: LoadingOverlay(
@@ -425,6 +417,80 @@ class _MyChatState extends State<MyChatScreen> {
     setState(() {
       _saving = false;
     });
+  }
+
+  _startAudioClass() async {
+    print(widget.chat_group_id.toString());
+    final teacher = await ServerAPI().getUserInfo();
+    try {
+      var options = JitsiMeetingOptions()
+        ..room = widget.chat_group_id.toString() // Required, spaces will be trimmed
+        ..serverURL = "https://meet.21century.in"
+        ..subject = widget.calss_name.toString()
+        ..userDisplayName = teacher['teacher_name'].toString()
+        ..audioOnly = false
+        ..audioMuted = false
+        ..videoMuted = true;
+
+      await JitsiMeet.joinMeeting(options,
+          listener: JitsiMeetingListener(
+              onConferenceWillJoin: ({message}) {
+                  print("Class WillJoin");
+                  //debugPrint("${options.room} will join with message: $message");
+              }, onConferenceJoined: ({message}) async {
+                  print("Class Joined");
+                  await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "online");
+                  //debugPrint("${options.room} joined with message: $message");
+              }, onConferenceTerminated: ({message}) async {
+                  print("Class Terminated");
+                  await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "offline");
+                  //debugPrint("${options.room} terminated with message: $message");
+          })
+      );
+    } catch (error) {
+      debugPrint("error: $error");
+    }
+  }
+
+  _startVideoClass() async {
+    final teacher = await ServerAPI().getUserInfo();
+    try {
+      var options = JitsiMeetingOptions()
+        ..room = widget.chat_group_id.toString() // Required, spaces will be trimmed
+        ..serverURL = "https://meet.21century.in"
+        ..subject = widget.calss_name.toString()
+        ..userDisplayName = teacher['teacher_name'].toString()
+        ..audioOnly = false
+        ..audioMuted = false
+        ..videoMuted = false;
+
+      await JitsiMeet.joinMeeting(options,
+          listener: JitsiMeetingListener(onConferenceWillJoin: ({message}) {
+            print("Class WillJoin");
+            //debugPrint("${options.room} will join with message: $message");
+          }, onConferenceJoined: ({message}) async {
+            print("Class Joined");
+            await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "online");
+            //debugPrint("${options.room} joined with message: $message");
+          }, onConferenceTerminated: ({message}) async {
+            print("Class Terminated");
+            await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "offline");
+            //debugPrint("${options.room} terminated with message: $message");
+          })
+      );
+    } catch (error) {
+      debugPrint("error: $error");
+    }
+  }
+
+  _changeLiveClassStatus(teacherID, classID, roomID, status) async {
+    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status);
+    var msg = {
+      "room_id": widget.chat_group_id.toString(),
+      "classID" : classID,
+      "status" : status
+    };
+    socket.emit("group_chat_room/liveEvent", [msg]);
   }
 
   @override

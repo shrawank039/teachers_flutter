@@ -9,6 +9,7 @@ import 'package:teachers/Support/Contact.dart';
 import '../Announcement/Announcement.dart';
 import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
+import '../NewsRoom/NewsRoom.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -28,6 +29,8 @@ class _DashboardState extends State<Dashboard> {
     'Attendance',
     'Profile',
     'Administrative \nQuery',
+    'GK & News \nRoom',
+    'Educational Stories',
   ];
 
   final carIcons = [
@@ -37,6 +40,8 @@ class _DashboardState extends State<Dashboard> {
     'assets/images/attendance.png',
     'assets/images/profile.png',
     'assets/images/help.png',
+    'assets/images/news.png',
+    'assets/images/education.png',
   ];
 
   final colors = [
@@ -46,6 +51,8 @@ class _DashboardState extends State<Dashboard> {
     Colors.purple[200],
     Colors.green[300],
     Colors.purple[300],
+    Colors.green[200],
+    Colors.red[300],
   ];
 
   @override
@@ -74,92 +81,92 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: Colors.green,
           title: Text("Teacher Dashboard"),
         ),
-        body: Stack(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: 200.0,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/images/school_banner.png',
-                        fit: BoxFit.fill),
-                    height: 190.0,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 25, bottom: 7),
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  'https://f0.pngfuel.com/png/382/222/delhi-public-school-faridabad-modern-delhi-public-school-delhi-public-school-society-national-secondary-school-others-png-clip-art.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            teacherName.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            teacherCode.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 3),
-                          child: Text(
-                            ('Welcome to ' + schoolName).toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              //fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+
+              Container(
+                width: double.infinity,
+                height: 200.0,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      child: Image.asset('assets/images/school_banner.png',
+                          fit: BoxFit.fill),
+                      height: 190.0,
+                      width: MediaQuery.of(context).size.width,
                     ),
-                  )
-                ],
+                    Container(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                            width: 70.0,
+                            height: 70.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(
+                                    'https://f0.pngfuel.com/png/382/222/delhi-public-school-faridabad-modern-delhi-public-school-delhi-public-school-society-national-secondary-school-others-png-clip-art.png'),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              teacherName.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              teacherCode.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 3),
+                            child: Text(
+                              ('Welcome to ' + schoolName).toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                //fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                //Image.asset('assets/images/school.jpg'),
               ),
-              //Image.asset('assets/images/school.jpg'),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 200, bottom: 40),
-              child: GridView.builder(
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: carIcons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     elevation: 5.0,
-                    margin: EdgeInsets.only(
-                        top: 10.0, left: 5.0, right: 5.0, bottom: 5.0),
+                    margin: EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 5.0),
                     child: Container(
                       child: GestureDetector(
                         onTap: () {
                           if (index == 2) {
-                            Route route = MaterialPageRoute(
-                                builder: (context) => TabIndex());
+                            Route route = MaterialPageRoute(builder: (context) => TabIndex());
                             Navigator.push(context, route);
                           }
 
@@ -170,27 +177,36 @@ class _DashboardState extends State<Dashboard> {
                           }
 
                           if (index == 1) {
-                            Route route = MaterialPageRoute(
-                                builder: (context) => Announcement());
+                            Route route = MaterialPageRoute(builder: (context) => Announcement());
                             Navigator.push(context, route);
                           }
 
                           if (index == 3) {
-                            Route route = MaterialPageRoute(
-                                builder: (context) => StudentAttaindance());
+                            Route route = MaterialPageRoute(builder: (context) => StudentAttaindance());
                             Navigator.push(context, route);
                           }
-
-                        if (index == 5) {
-                          Route route = MaterialPageRoute(builder: (context) => Contact());
-                          Navigator.push(context, route);
-                        }
 
                           if (index == 4) {
-                            Route route = MaterialPageRoute(
-                                builder: (context) => Profile());
+                            Route route = MaterialPageRoute(builder: (context) => Profile());
                             Navigator.push(context, route);
                           }
+
+                          if (index == 5) {
+                            Route route = MaterialPageRoute(builder: (context) => Contact());
+                            Navigator.push(context, route);
+                          }
+
+                          if (index == 6) {
+                            Route route = MaterialPageRoute(builder: (context) => NewsRoom('news', "GK & News Room"));
+                            Navigator.push(context, route);
+                          }
+
+                          if (index == 7) {
+                            Route route = MaterialPageRoute(builder: (context) => NewsRoom('storyTime', "Educational Stories"));
+                            Navigator.push(context, route);
+                          }
+
+
                         },
                         child: Container(
                           //color: colors[index],
@@ -226,23 +242,24 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
               ),
-            ),
-            Positioned(
-              bottom: 5,
-              child: Container(
+
+              Container(
+                  margin: EdgeInsets.only(bottom: 10, top: 10),
+                  child: Image.asset('assets/images/ic_launcher.png', width: 70,)
+              ),
+              Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  'POWERED BY \n 21 century innovative solutions Pvt. Ltd.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
-                ),
+                child: Text('AKSH Education System', textAlign: TextAlign.center, style: TextStyle( fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),),
               ),
-            ),
-          ],
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(bottom: 10),
+                child: Text('POWERED BY \n 21 century innovative solutions Pvt. Ltd.', textAlign: TextAlign.center, style: TextStyle( fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),),
+              )
+
+            ],
+          ),
         ),
       ),
     );

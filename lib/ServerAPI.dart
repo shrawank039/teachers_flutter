@@ -349,4 +349,22 @@ class ServerAPI {
     }
   }
 
+  Future<Map<String, dynamic>> changeLiveClassStatus(teacherID, classID, roomID, status) async {
+    final response = await http.get(apiRoot + "/liveclass?teacher_id=$teacherID&class_id=$classID&status=$status&room_id=$roomID", headers: _buildHeader());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<Map<String, dynamic>> getNews(type) async {
+    final response = await http.get(apiRoot + "/getNewsStory?type=$type", headers: _buildHeader());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
 }

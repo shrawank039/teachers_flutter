@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teachers/NewsRoom/NewsRoom.dart';
 import 'Dashboard/Dashboard.dart';
 import 'Profile/Profile.dart';
 import 'Announcement/Announcement.dart';
@@ -81,13 +82,13 @@ class _DrawerState extends State<CustomDrawer> {
           ),
 
           ListTile(
-            leading: const Icon(Icons.archive),
+            leading: const Icon(Icons.chat),
             title: Text(
-              'Profile',
+              'Class Room',
               style: MenuTextStyle,
             ),
             onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => Profile());
+              Route route = MaterialPageRoute(builder: (context) => TabIndex());
               Navigator.pushReplacement(context, route);
             },
           ),
@@ -118,25 +119,43 @@ class _DrawerState extends State<CustomDrawer> {
           ),
 
           ListTile(
-            leading: const Icon(Icons.chat),
-            title: Text(
-              'Class Room',
-              style: MenuTextStyle,
-            ),
+            leading: const Icon(Icons.bookmark_border),
+            title: Text('GK & News Room', style: MenuTextStyle,),
             onTap: () {
-              Route route = MaterialPageRoute(builder: (context) => TabIndex());
+              Route route = MaterialPageRoute(builder: (context) => NewsRoom("news", "GK & News Room"));
               Navigator.pushReplacement(context, route);
             },
           ),
 
-//          ListTile(
-//            leading: const Icon(Icons.live_help),
-//            title: Text('Support', style: MenuTextStyle,),
-//            onTap: () {
-//              Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
-//              Navigator.pushReplacement(context, route);
-//            },
-//          ),
+          ListTile(
+            leading: const Icon(Icons.bookmark_border),
+            title: Text('Educational Stories', style: MenuTextStyle,),
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (context) => NewsRoom('storyTime', "Educational Stories"));
+              Navigator.pushReplacement(context, route);
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.live_help),
+            title: Text('Support', style: MenuTextStyle,),
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (context) => ContactAgreement());
+              Navigator.pushReplacement(context, route);
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.archive),
+            title: Text(
+              'Profile',
+              style: MenuTextStyle,
+            ),
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (context) => Profile());
+              Navigator.pushReplacement(context, route);
+            },
+          ),
 
           Divider(),
           ListTile(
