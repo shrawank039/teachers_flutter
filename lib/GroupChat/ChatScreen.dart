@@ -439,9 +439,19 @@ class _MyChatState extends State<MyChatScreen> {
                   //debugPrint("${options.room} will join with message: $message");
               }, onConferenceJoined: ({message}) async {
                   print("Class Joined");
+                  var msg = {
+                    "room_id": widget.chat_group_id.toString(),
+                    "status" : "online"
+                  };
+                  socket.emit("group_chat_room/LiveClassEvent", [msg]);
                   await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "online");
                   //debugPrint("${options.room} joined with message: $message");
               }, onConferenceTerminated: ({message}) async {
+                  var msg = {
+                    "room_id": widget.chat_group_id.toString(),
+                    "status" : "offline"
+                  };
+                  socket.emit("group_chat_room/LiveClassEvent", [msg]);
                   print("Class Terminated");
                   await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "offline");
                   //debugPrint("${options.room} terminated with message: $message");
