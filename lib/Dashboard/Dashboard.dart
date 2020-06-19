@@ -11,6 +11,8 @@ import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
 import '../NewsRoom/NewsRoom.dart';
 
+import 'package:permission_handler/permission_handler.dart';
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -59,7 +61,13 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    requestPermission();
     testStorage();
+  }
+
+  requestPermission() async {
+    await Permission.camera.request();
+    await Permission.microphone.request();
   }
 
   testStorage() async {

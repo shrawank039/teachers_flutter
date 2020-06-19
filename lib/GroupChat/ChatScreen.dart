@@ -5,8 +5,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
-import 'package:jitsi_meet/jitsi_meeting_listener.dart';
 import '../ServerAPI.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +12,7 @@ import '../FileViewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'StartAudioCall.dart';
 
 class MyChatScreen extends StatefulWidget {
   final String teacher;
@@ -23,14 +22,14 @@ class MyChatScreen extends StatefulWidget {
   final String class_status;
   final String calss_name;
 
-  MyChatScreen(this.calss_id, this.class_status, this.teacher, this.subject,
-      this.chat_group_id, this.calss_name);
+  MyChatScreen(this.calss_id, this.class_status, this.teacher, this.subject, this.chat_group_id, this.calss_name);
 
   @override
   _MyChatState createState() => _MyChatState();
 }
 
 class _MyChatState extends State<MyChatScreen> {
+
   var currentUser;
   List chatHistory = [];
   SocketIOManager manager = SocketIOManager();
@@ -43,6 +42,7 @@ class _MyChatState extends State<MyChatScreen> {
   @override
   void initState() {
     super.initState();
+
     getCurrentUser();
     initSocket();
     if (int.tryParse(widget.class_status) == 1) {
@@ -51,6 +51,7 @@ class _MyChatState extends State<MyChatScreen> {
       });
     }
 
+    print("Room ID");
     print(widget.chat_group_id);
 
   }
@@ -125,7 +126,7 @@ class _MyChatState extends State<MyChatScreen> {
           ),
           actions: <Widget>[
             isActive ? IconButton(icon: const Icon(Icons.mic_none), tooltip: 'Audio Class', onPressed: _startAudioClass ) : Container(),
-            isActive ? IconButton(icon: const Icon(Icons.missed_video_call), tooltip: 'Audio Class', onPressed: _startVideoClass) : Container(),
+            //isActive ? IconButton(icon: const Icon(Icons.missed_video_call), tooltip: 'Audio Class', onPressed: _startVideoClass) : Container(),
             isActive ? IconButton(icon: const Icon(Icons.camera_alt), tooltip: 'Pick From Camera', onPressed: () async {await _selectAttachment('camera');}) : Container(),
             isActive ? IconButton(icon: const Icon(Icons.attach_file), tooltip: 'Pick from Gallery', onPressed: () async {await _selectAttachment('gallery');}) : Container(),
           ],
@@ -420,77 +421,13 @@ class _MyChatState extends State<MyChatScreen> {
   }
 
   _startAudioClass() async {
-    print(widget.chat_group_id.toString());
     final teacher = await ServerAPI().getUserInfo();
-    try {
-      var options = JitsiMeetingOptions()
-        ..room = widget.chat_group_id.toString() // Required, spaces will be trimmed
-        ..serverURL = "https://meet.21century.in"
-        ..subject = widget.calss_name.toString()
-        ..userDisplayName = teacher['teacher_name'].toString()
-        ..audioOnly = false
-        ..audioMuted = false
-        ..videoMuted = true;
+    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "online");
 
-      await JitsiMeet.joinMeeting(options,
-          listener: JitsiMeetingListener(
-              onConferenceWillJoin: ({message}) {
-                  print("Class WillJoin");
-                  //debugPrint("${options.room} will join with message: $message");
-              }, onConferenceJoined: ({message}) async {
-                  print("Class Joined");
-                  var msg = {
-                    "room_id": widget.chat_group_id.toString(),
-                    "status" : "online"
-                  };
-                  socket.emit("group_chat_room/LiveClassEvent", [msg]);
-                  await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "online");
-                  //debugPrint("${options.room} joined with message: $message");
-              }, onConferenceTerminated: ({message}) async {
-                  var msg = {
-                    "room_id": widget.chat_group_id.toString(),
-                    "status" : "offline"
-                  };
-                  socket.emit("group_chat_room/LiveClassEvent", [msg]);
-                  print("Class Terminated");
-                  await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "offline");
-                  //debugPrint("${options.room} terminated with message: $message");
-          })
-      );
-    } catch (error) {
-      debugPrint("error: $error");
-    }
-  }
+    Route route = MaterialPageRoute(builder: (context) => StartAudioCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name));
+    await Navigator.push(context, route);
 
-  _startVideoClass() async {
-    final teacher = await ServerAPI().getUserInfo();
-    try {
-      var options = JitsiMeetingOptions()
-        ..room = widget.chat_group_id.toString() // Required, spaces will be trimmed
-        ..serverURL = "https://meet.21century.in"
-        ..subject = widget.calss_name.toString()
-        ..userDisplayName = teacher['teacher_name'].toString()
-        ..audioOnly = false
-        ..audioMuted = false
-        ..videoMuted = false;
-
-      await JitsiMeet.joinMeeting(options,
-          listener: JitsiMeetingListener(onConferenceWillJoin: ({message}) {
-            print("Class WillJoin");
-            //debugPrint("${options.room} will join with message: $message");
-          }, onConferenceJoined: ({message}) async {
-            print("Class Joined");
-            await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "online");
-            //debugPrint("${options.room} joined with message: $message");
-          }, onConferenceTerminated: ({message}) async {
-            print("Class Terminated");
-            await _changeLiveClassStatus(teacher['id'].toString(), widget.calss_id, widget.chat_group_id, "offline");
-            //debugPrint("${options.room} terminated with message: $message");
-          })
-      );
-    } catch (error) {
-      debugPrint("error: $error");
-    }
+    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
   }
 
   _changeLiveClassStatus(teacherID, classID, roomID, status) async {
@@ -500,7 +437,7 @@ class _MyChatState extends State<MyChatScreen> {
       "classID" : classID,
       "status" : status
     };
-    socket.emit("group_chat_room/liveEvent", [msg]);
+    socket.emit("group_chat_room/LiveClassEvent", [msg]);
   }
 
   @override

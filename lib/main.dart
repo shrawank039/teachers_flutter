@@ -8,8 +8,7 @@ import 'ServerAPI.dart';
 void main() {
   runApp(MyApp());
   OneSignal.shared.init("0ff4329e-5eda-4e47-8de0-0e4f05fb6f50");
-  OneSignal.shared
-      .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
 }
 
 class MyApp extends StatefulWidget {

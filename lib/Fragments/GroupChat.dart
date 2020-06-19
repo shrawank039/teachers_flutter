@@ -50,7 +50,7 @@ class _GroupChatState extends State<GroupChat> {
                         children: <Widget>[
                           ListTile(
                             onTap: () async {
-                              final user = await ServerAPI().getUserInfo();
+                              print(allSubject[index]);
                               Route route = MaterialPageRoute(builder: (context) => MyChatScreen(
                                   allSubject[index]['class_id'].toString(),
                                   allSubject[index]['class_status'].toString(),
@@ -99,7 +99,7 @@ class _GroupChatState extends State<GroupChat> {
             children: <Widget>[
               ListTile(
                 onTap: () async {
-                  final user = await ServerAPI().getUserInfo();
+                  print(response[index]);
                   Route route = MaterialPageRoute(builder: (context) => MyChatScreen(
                       response[index]['class_id'].toString(),
                       response[index]['class_status'].toString(),
@@ -125,7 +125,6 @@ class _GroupChatState extends State<GroupChat> {
               )
             ],
           );
-
         },
       );
     } else {
