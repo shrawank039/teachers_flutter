@@ -50,10 +50,6 @@ class _MyChatState extends State<MyChatScreen> {
         isActive = true;
       });
     }
-
-    print("Room ID");
-    print(widget.chat_group_id);
-
   }
 
   getCurrentUser() async {
@@ -422,11 +418,8 @@ class _MyChatState extends State<MyChatScreen> {
 
   _startAudioClass() async {
     final teacher = await ServerAPI().getUserInfo();
-    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "online");
-
-    Route route = MaterialPageRoute(builder: (context) => StartAudioCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name));
+    Route route = MaterialPageRoute(builder: (context) => StartAudioCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name, widget.calss_id));
     await Navigator.push(context, route);
-
     await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
   }
 
