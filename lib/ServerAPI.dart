@@ -365,4 +365,16 @@ class ServerAPI {
     }
   }
 
+  Future<Map<String, dynamic>> versionCheck() async {
+    var body = {
+      "type" : "teacher"
+    };
+    final response = await http.post(apiRoot + "/vesionInfo", headers: _buildHeader(), body: body);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
 }
