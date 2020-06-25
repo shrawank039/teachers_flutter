@@ -11,6 +11,11 @@ import '../Fragments/TabIndex.dart';
 import '../Schedule/Schedule.dart';
 import '../NewsRoom/NewsRoom.dart';
 
+import 'package:package_info/package_info.dart';
+import 'package:store_redirect/store_redirect.dart';
+
+import 'package:permission_handler/permission_handler.dart';
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -59,7 +64,54 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    requestPermission();
     testStorage();
+    versionCheck();
+  }
+
+  versionCheck() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String versionName = packageInfo.version;
+    var myContext = context;
+    final result = await ServerAPI().versionCheck();
+    if(result['data']['version_code'].toString() != versionName.toString()){
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('New version available'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Update your app now'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(myContext);
+                },
+              ),
+              FlatButton(
+                child: Text('Update'),
+                onPressed: () async {
+                  StoreRedirect.redirect(androidAppId: "com.matrixdeveloper.students", iOSAppId: "com.matrixdeveloper.students");
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  requestPermission() async {
+    await Permission.camera.request();
+    await Permission.microphone.request();
   }
 
   testStorage() async {
