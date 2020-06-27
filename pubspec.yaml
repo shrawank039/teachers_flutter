@@ -46,6 +46,7 @@ dependencies:
   permission_handler: ^5.0.1
   package_info: ^0.4.1
   store_redirect: ^1.0.2
+  adobe_xd: ^0.1.4
 
 dev_dependencies:
   flutter_test:

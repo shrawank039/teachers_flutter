@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.2+1"
+  adobe_xd:
+    dependency: "direct main"
+    description:
+      name: adobe_xd
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   advance_pdf_viewer:
     dependency: "direct main"
     description:

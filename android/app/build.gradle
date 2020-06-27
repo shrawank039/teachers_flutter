@@ -41,7 +41,7 @@ android {
         applicationId "com.matrixdeveloper.teachers"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3 //flutterVersionCode.toInteger()
+        versionCode 4 //flutterVersionCode.toInteger()
         versionName "3.0.2" //flutterVersionName
         multiDexEnabled true
     }
