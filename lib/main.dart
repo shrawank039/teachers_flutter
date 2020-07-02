@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         primaryColorDark: Colors.white,
         fontFamily: 'Montserrat Regularr',
       ),
-      home: XDvideo_chat(), // XDtext_chatbottomsheet SetHomePage
+      home: SetHomePage(), // XDtext_chatbottomsheet SetHomePage
     );
   }
 }

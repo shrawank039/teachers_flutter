@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teachers/GroupChat/StartVideoCall.dart';
 import '../ServerAPI.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:image_picker/image_picker.dart';
@@ -122,7 +123,7 @@ class _MyChatState extends State<MyChatScreen> {
           ),
           actions: <Widget>[
             isActive ? IconButton(icon: const Icon(Icons.mic_none), tooltip: 'Audio Class', onPressed: _startAudioClass ) : Container(),
-            //isActive ? IconButton(icon: const Icon(Icons.missed_video_call), tooltip: 'Audio Class', onPressed: _startVideoClass) : Container(),
+            isActive ? IconButton(icon: const Icon(Icons.missed_video_call), tooltip: 'Video Class', onPressed: _startVideoClass) : Container(),
             isActive ? IconButton(icon: const Icon(Icons.camera_alt), tooltip: 'Pick From Camera', onPressed: () async {await _selectAttachment('camera');}) : Container(),
             isActive ? IconButton(icon: const Icon(Icons.attach_file), tooltip: 'Pick from Gallery', onPressed: () async {await _selectAttachment('gallery');}) : Container(),
           ],
@@ -419,6 +420,13 @@ class _MyChatState extends State<MyChatScreen> {
   _startAudioClass() async {
     final teacher = await ServerAPI().getUserInfo();
     Route route = MaterialPageRoute(builder: (context) => StartAudioCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name, widget.calss_id));
+    await Navigator.push(context, route);
+    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
+  }
+
+  _startVideoClass() async {
+    final teacher = await ServerAPI().getUserInfo();
+    Route route = MaterialPageRoute(builder: (context) => StartVideoCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name, widget.calss_id));
     await Navigator.push(context, route);
     await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
   }
