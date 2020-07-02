@@ -345,9 +345,8 @@ class ServerAPI {
     }
   }
 
-  Future<Map<String, dynamic>> changeLiveClassStatus(teacherID, classID, roomID, status) async {
-    print(apiRoot + "/liveclass?teacher_id=$teacherID&class_id=$classID&status=$status&room_id=$roomID");
-    final response = await http.get(apiRoot + "/liveclass?teacher_id=$teacherID&class_id=$classID&status=$status&room_id=$roomID", headers: _buildHeader());
+  Future<Map<String, dynamic>> changeLiveClassStatus(teacherID, classID, roomID, status, call_type) async {
+    final response = await http.get(apiRoot + "/liveclass?teacher_id=$teacherID&class_id=$classID&status=$status&room_id=$roomID&call_type=$call_type", headers: _buildHeader());
     print(response.body);
     if (response.statusCode == 200) {
       return json.decode(response.body);

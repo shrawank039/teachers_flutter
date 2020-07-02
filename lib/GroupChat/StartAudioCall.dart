@@ -140,11 +140,12 @@ class _StartAudioCallState extends State<StartAudioCall> {
   }
 
   _changeLiveClassStatus(teacherID, classID, roomID, status) async {
-    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status);
+    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status, 'Audio');
     var msg = {
       "room_id": widget.room_id.toString(),
       "classID" : classID,
-      "status" : status
+      "status" : status,
+      "call_type" : "Audio"
     };
     socket.emit("group_chat_room/LiveClassEvent", [msg]);
   }

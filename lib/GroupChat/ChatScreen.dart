@@ -421,18 +421,18 @@ class _MyChatState extends State<MyChatScreen> {
     final teacher = await ServerAPI().getUserInfo();
     Route route = MaterialPageRoute(builder: (context) => StartAudioCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name, widget.calss_id));
     await Navigator.push(context, route);
-    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
+    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline", "Audio");
   }
 
   _startVideoClass() async {
     final teacher = await ServerAPI().getUserInfo();
     Route route = MaterialPageRoute(builder: (context) => StartVideoCall(widget.chat_group_id, teacher['teacher_code'], teacher['teacher_name'], widget.subject, widget.calss_name, widget.calss_id));
     await Navigator.push(context, route);
-    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline");
+    await _changeLiveClassStatus(teacher['id'], widget.calss_id, widget.chat_group_id, "offline", "Video");
   }
 
-  _changeLiveClassStatus(teacherID, classID, roomID, status) async {
-    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status);
+  _changeLiveClassStatus(teacherID, classID, roomID, status, call_type) async {
+    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status,call_type);
     var msg = {
       "room_id": widget.chat_group_id.toString(),
       "classID" : classID,

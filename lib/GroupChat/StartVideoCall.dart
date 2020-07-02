@@ -140,11 +140,12 @@ class _StartVideoCallState extends State<StartVideoCall> {
   }
 
   _changeLiveClassStatus(teacherID, classID, roomID, status) async {
-    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status);
+    await ServerAPI().changeLiveClassStatus(teacherID, classID, roomID, status, "Video");
     var msg = {
       "room_id": widget.room_id.toString(),
       "classID" : classID,
-      "status" : status
+      "status" : status,
+      "call_type" : "Video"
     };
     socket.emit("group_chat_room/LiveClassEvent", [msg]);
   }
